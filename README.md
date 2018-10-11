@@ -1,6 +1,6 @@
 ## Ysynth
 
-RaspberryPiとTimidity++を核にしたハードウェアシンセサイザーです。
+RaspberryPiとTimidity++を核にしたハードウェアシンセサイザーです。GM/GS/XGのメッセージが使えます。
 
 ## 概要
 作成中
