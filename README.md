@@ -12,12 +12,17 @@ RaspberryPiとTimidity++を核にしたハードウェアシンセサイザー�
     
 ## 必要な部品
 ※基板やピンソケットは除く
+
 ・RaspberryPiZeroWH
+
 ・HiFiberryDAC相当のDAC
+
 ・タクトスイッチx8
+
 ・I2C接続16x2有機ELディスプレイ
+
 ・オペアンプHT82V739
-・
+
 ・etc
 
 ## 必要なライブラリ
