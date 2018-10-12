@@ -11,7 +11,7 @@ RaspberryPiとTimidity++を核にしたハードウェアシンセサイザー�
     Python : ver2.7
     
 ## 必要な部品
-※基板やピンソケットは除く
+    ※基板やピンソケットは除く
     RaspberryPiZeroWH
     HiFiberryDAC相当のDAC
     タクトスイッチx8
