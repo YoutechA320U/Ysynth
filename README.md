@@ -26,7 +26,7 @@ RaspberryPi Zeroで動作するハードウェアシンセサイザーです
 |小型スピーカー |[8Ω](http://akizukidenshi.com/catalog/g/gP-12587/)|1|
 |アンプモジュール|[PAM8012使用2ワットD級アンプモジュール](http://akizukidenshi.com/catalog/g/gK-08217/)|1|
 |半固定抵抗|[10kΩ](http://akizukidenshi.com/catalog/g/gP-03277/)|1|
-
+|ミニジャック|[3.5mmステレオ](http://akizukidenshi.com/catalog/g/gC-08958/)|1|
 ## インストール方法
 ※OSはRaspbian stretch Lite前提です。インストールの時のみ、より高性能なRaspberryPi 3B+を使うことを強くおすすめします。
 
