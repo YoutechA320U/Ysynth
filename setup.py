@@ -4,8 +4,9 @@ import subprocess
 subprocess.call('sudo apt-get install -y libasound2-dev git build-essential python-dev libpython2.7-dev libpython3.4-dev libjack-jackd2-dev cython cython3 samba python-setuptools python3-setuptools python-smbus i2c-tools python3-smbus python-rpi.gpio python3-rpi.gpio python3-pip python-pip timidity fluid-soundfont-gm' ,shell=True)
 subprocess.call('mkdir /home/pi/sf2' ,shell=True)
 subprocess.call('mkdir /home/pi/midi' ,shell=True)
-subprocess.call('sudo cp /home/pi/Ysynth/*.mid /home/pi/midi' ,shell=True)
 subprocess.call('mkdir /home/pi/timidity_cfg' ,shell=True)
+subprocess.call('sudo chown -R pi:pi /home/pi/' ,shell=True)
+subprocess.call('sudo cp /home/pi/Ysynth/*.mid /home/pi/midi' ,shell=True)
 subprocess.call('sudo cp /home/pi/Ysynth/*.cfg /home/pi/timidity_cfg' ,shell=True)
 subprocess.call('sudo apt-get remove -y timidity-daemon' ,shell=True)
 subprocess.call('sudo systemctl disable timidity.service' ,shell=True)
@@ -158,7 +159,7 @@ WantedBy = multi-user.target
 f=open("/etc/systemd/system/ysynth.service","wt")
 f.write(script)
 f.close()
-subprocess.call('systemctl enable ysynth.service' ,shell=True)
+subprocess.call('sudo systemctl enable ysynth.service' ,shell=True)
 script = ''' 
 ACTION=="add", \
 SUBSYSTEMS=="usb", \
@@ -440,9 +441,9 @@ path = /home/pi/sf2
 read only = No
 guest ok = Yes
 force user = pi
-
 '''
 f=open("/etc/samba/smb.conf","wt")
 f.write(script)
 f.close()
+subprocess.call('sudo reboot' ,shell=True)
 subprocess.call('sudo reboot' ,shell=True)
