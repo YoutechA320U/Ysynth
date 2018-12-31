@@ -33,7 +33,7 @@ RaspberryPi Zeroで動作するハードウェアシンセサイザーです
 1.まず以下のコマンドを実行します。
 
     sudo apt-get update
-    sudo apt-get upgrade
+    sudo apt-get upgrade -y
     sudo apt-get install -y git
     git clone https://github.com/YoutechA320U/Ysynth
 
