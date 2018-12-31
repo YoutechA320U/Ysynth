@@ -27,9 +27,6 @@ RaspberryPiで動作するハードウェアシンセサイザーです
 |アンプモジュール|[PAM8012使用2ワットD級アンプモジュール](http://akizukidenshi.com/catalog/g/gK-08217/)|1|
 |半固定抵抗|[10kΩ](http://akizukidenshi.com/catalog/g/gP-03277/)|1|
 
-## 必要なライブラリ
-    rymidi smbus RPi.GPIO
-
 ## インストール方法
 ※OSはRaspbian stretch Lite前提です。インストールの時のみ、より高性能なRaspberryPi 3B+を使うことを強くおすすめします。
 
