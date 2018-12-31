@@ -57,14 +57,17 @@ RaspberryPi Zeroで動作するハードウェアシンセサイザーです。�
 
 5.有機ELディスプレイにメッセージが表示されたら完了です。
 
+## 操作方法
+ロータリーエンコーダ1(回路図中のRoEn1)でディスプレイ上段に表示される値を、ロータリーエンコーダ2(回路図中のRoEn2)でディスプレイ下段に表示される値を操作します。ロータリーエンコーダ3(回路図中のRoEn3)で本体のモードを変更し(ディスプレイのページ送りのようなイメージ)、ロータリーエンコーダ4(回路図中のRoEn4)でシステムボリュームを操作します。また押しボタンスイッチ(回路図中のPUSHSW)でMIDIファイルの再生/停止、サウンドフォントの選択及び決定、シャットダウン、システムのリロードを行います。
+
 ## 使い方
-作成中
+電源につなぐとまずサウンドフォントの選択画面になります。
 
 ## 備考
 作成中
 
 ### 参考コード・資料
- * <http://artteknika.hatenablog.com/entry/2017/04/28/185444>  
+ * <http://artteknika.hatenablog.com/entry/2017/04/28/185509>  
  * <https://hawksnowlog.blogspot.com/2017/01/raspberrypi-with-rotaryencoder-python.html>
  * <https://www.denshi.club/pc/raspi/i2caqmlcdarduinode1-aqm0802-3.html>  
  * <https://github.com/SpotlightKid/python-rtmidi>  
