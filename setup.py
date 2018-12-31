@@ -7,8 +7,8 @@ subprocess.call('mkdir /home/pi/midi' ,shell=True)
 subprocess.call('mkdir /home/pi/timidity_cfg' ,shell=True)
 subprocess.call('sudo apt-get remove -y timidity-daemon' ,shell=True)
 subprocess.call('sudo systemctl disable timidity.service' ,shell=True)
-subprocess.call('sudo pip install python-rtmidi')
-subprocess.call('sudo pip3 install python-rtmidi')
+subprocess.call('sudo pip install python-rtmidi' ,shell=True)
+subprocess.call('sudo pip3 install python-rtmidi' ,shell=True)
 script = '''
 # For more options and information see
 # http://rpf.io/configtxt
@@ -442,4 +442,4 @@ force user = pi
 f=open("/etc/samba/smb.conf","wt")
 f.write(script)
 f.close()
-subprocess.call('sudo rebot')
+subprocess.call('sudo reboot' ,shell=True)
