@@ -35,7 +35,7 @@ RaspberryPi Zeroで動作するハードウェアシンセサイザーです
     sudo apt-get update
     sudo apt-get upgrade -y
     sudo apt-get install -y git
-    git clone https://github.com/YoutechA320U/Ysynth
+    git clone https://github.com/YoutechA320U/Ysynth.git
 
 2.何らかのエディタで`/boot/cmdline.txt`の末尾に改行せずに`modules-load=dwc2,g_midi`を追加します。
 
