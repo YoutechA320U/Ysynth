@@ -437,6 +437,7 @@ path = /home/pi/sf2
 read only = No
 guest ok = Yes
 force user = pi
+
 '''
 f=open("/etc/samba/smb.conf","wt")
 f.write(script)
