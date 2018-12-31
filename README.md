@@ -1,9 +1,20 @@
 ## Ysynth
 
-RaspberryPiとTimidity++を核にしたハードウェアシンセサイザーです。GM/GS/XGのメッセージが使えます。
+RaspberryPiとTimidity++を核にしたハードウェアシンセサイザーです。GM/GS/エクスクルーシブのメッセージが使えます。
 
 ## 概要
-RaspberryPi Zeroで動作するハードウェアシンセサイザーです
+RaspberryPi Zeroで動作するハードウェアシンセサイザーです。チャンネルごとにデータを送信、OLEDに表示するMIDIコントローラとしての機能と、チャンネルごとにデータを受信、OLEDに表示し、任意のサウンドフォント(.sf2)を鳴らせるMIDI音源としての機能、任意のMIDIファイルを自身や外部音源で演奏できるMIDIシーケンサとしての機能を持ちます。
+
+## スペック
+    ※GM/GS/エクスクルーシブメッセージ対応
+    パート数:16
+    最大同時発音数:64
+    音源:サウンドフォント(.sf2)※任意ファイルを追加可能
+    サンプリングレート:32000Hz
+    本体でコントロールできるコントロールチェンジ:
+    ディスプレイ:16x2有機ELディスプレイ
+    接続端子:microUSBTypeB-MIDI端子(OTG接続可)、3.5mmオーディオ出力端子、スピーカーアンプ(1W級)
+    電源:DC5V1A(RaspberryPiのmicroUSBTypeB)
 
 ## 開発環境
     OS : Raspbian stretch Lite
@@ -52,6 +63,9 @@ RaspberryPi Zeroで動作するハードウェアシンセサイザーです
 作成中
 
 ### 参考コード・資料
-作成中
+ * <http://artteknika.hatenablog.com/entry/2017/04/28/185444>  
+ * <https://hawksnowlog.blogspot.com/2017/01/raspberrypi-with-rotaryencoder-python.html>
+ * <https://www.denshi.club/pc/raspi/i2caqmlcdarduinode1-aqm0802-3.html>  
+ * <https://github.com/SpotlightKid/python-rtmidi>  
 ## 履歴
     [2018/10/11] - リポジトリ立ち上げ
