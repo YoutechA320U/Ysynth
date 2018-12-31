@@ -15,6 +15,7 @@ RaspberryPiで動作するハードウェアシンセサイザーです
 
 ## 必要な部品
 ※基板やピンソケット、つまみは除く
+
 |部品名|型番など|数量|
 |:---|:--:|---:|
 |RaspberryPi|[RaspberryPiZeroWH](http://akizukidenshi.com/catalog/g/gM-12961/)|1|
