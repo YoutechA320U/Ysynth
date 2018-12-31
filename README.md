@@ -37,7 +37,7 @@ RaspberryPiで動作するハードウェアシンセサイザーです
     sudo apt-get install -y git
     git clone https://github.com/YoutechA320U/Ysynth
 
-2..何らかのエディタで`/boot/cmdline.txt`の末尾に改行せずに`modules-load=dwc2,g_midi`を追加します。
+2.何らかのエディタで`/boot/cmdline.txt`の末尾に改行せずに`modules-load=dwc2,g_midi`を追加します。
 
 3.`cd /home/pi/Ysynth`でカレントディレクトリを`Ysynth`に移動します。
 
