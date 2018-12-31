@@ -207,7 +207,7 @@ while True:
               so1602.write('ピッチベンド:'+str("{0:04d}".format(0x80*pb2[midiCH]+pb1[midiCH]-8192))+"     ")
        #print (message)
     if GPIO.input(4) == 0:
-       if mode == 0 :
+       if mode != 5 or mode != 6 or mode != 7 or mode != 8 :
           allnoteoff()
        if mode == 5 and playflag == 0 and syokai == 0 :
           playmidi = midi[midicounter]
@@ -300,7 +300,7 @@ while True:
       if volume <= 0:
          volume = 0
       subprocess.call('amixer cset numid=1 {}% > /dev/null' .format(volume), shell = True)
-      if mode == 5 or mode == 6 or mode == 7 : #特定のモードでOLEDに表示
+      if mode == 5 or mode == 6 or mode == 7 or mode == 8: #特定のモードでOLEDに表示
          so1602.command(OLED_2ndline)
          so1602.write("システムボリューム:"+str("{0:02}".format(volume))+"   ")
 
