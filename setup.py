@@ -5,7 +5,8 @@ subprocess.call('sudo apt-get install -y libasound2-dev git build-essential pyth
 subprocess.call('mkdir /home/pi/sf2' ,shell=True)
 subprocess.call('mkdir /home/pi/midi' ,shell=True)
 subprocess.call('mkdir /home/pi/timidity_cfg' ,shell=True)
-subprocess.call('systemctl disable timidity.service' ,shell=True)
+subprocess.call('sudo apt-get remove -y timidity-daemon' ,shell=True)
+subprocess.call('sudo systemctl disable timidity.service' ,shell=True)
 subprocess.call('sudo pip install python-rtmidi')
 subprocess.call('sudo pip3 install python-rtmidi')
 script = '''
@@ -65,7 +66,6 @@ dtparam=i2s=on
 
 # Enable audio (loads snd_bcm2835)
 #dtparam=audio=on
-enable_uart=1
 dtoverlay=iqaudio-dacplus
 dtoverlay=dwc2
 '''
@@ -159,7 +159,7 @@ subprocess.call('systemctl enable ysynth.service' ,shell=True)
 script = ''' 
 ACTION=="add", \
 SUBSYSTEMS=="usb", \
-RUN+="/bin/bash /home/pi/midiconnect.sh"
+RUN+="/bin/bash /home/pi/Ysynth/midiconnect.sh"
 '''
 f=open("/etc/udev/rules.d/90-usbmidiconnect.rules","wt")
 f.write(script)
