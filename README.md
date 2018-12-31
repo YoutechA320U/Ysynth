@@ -30,7 +30,7 @@ RaspberryPiで動作するハードウェアシンセサイザーです
     rymidi smbus RPi.GPIO
 
 ## インストール方法
-※OSはRaspbian stretch Lite前提です。インストールの時のみ、より高性能なRaspberryPi 3B+などを使うことを強くおすすめします。
+※OSはRaspbian stretch Lite前提です。インストールの時のみ、より高性能なRaspberryPi 3B+を使うことを強くおすすめします。
 
 1.まず以下のコマンドを実行します。
 
