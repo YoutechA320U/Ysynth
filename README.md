@@ -3,7 +3,7 @@
 RaspberryPiとTimidity++を核にしたハードウェアシンセサイザーです。GM/GS/XGのメッセージが使えます。
 
 ## 概要
-RaspberryPiで動作するハードウェアシンセサイザーです
+RaspberryPi Zeroで動作するハードウェアシンセサイザーです
 
 ## 開発環境
     OS : Raspbian stretch Lite
