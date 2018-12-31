@@ -75,8 +75,18 @@ RaspberryPi Zeroで動作するハードウェアシンセサイザーです。�
 
 電源につなぐとまずサウンドフォントの選択画面になります。この時はロータリーエンコーダ2以外のロータリーエンコーダは動きません。
 
+![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/oled1.jpg "OLED1")
+
+ロータリーエンコーダ2でサウンドフォントを選択して押しボタンスイッチで決定します。チャンネルとインストゥルメント(プログラムチェンジ)が表示されたら操作可能になります。
+
+![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/oled2.jpg "OLED2")
+
 ## 備考
-作成中
+OTG機能で他のパソコンなどとUSB接続する場合は「MIDI function」または「MIDI Gadget」という名前で認識されます。
+
+システムのリロードはYsynthのスクリプトとTimidity++をリセット、再起動します。また、サウンドフォントを変更した場合はTimidity++のみが再起動します。
+
+動作がおかしくなった場合、どちらを行っても症状がが改善しない場合は1どシャットダウンをして電源を入れ直してください。
 
 ### 参考コード・資料
  * <http://artteknika.hatenablog.com/entry/2017/04/28/185509>  
