@@ -132,7 +132,7 @@ def allnoteoff():
         midiout.send_message([a, 0x78, 0x00])
         a += 1
 so1602.command(OLED_1stline)
-so1602.write("コンニチハ!")
+so1602.write("     コンニチハ!")
 so1602.command(OLED_2ndline)
 so1602.write("     Ysynth")
 time.sleep(4.0)
