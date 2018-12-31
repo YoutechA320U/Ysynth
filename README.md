@@ -2,6 +2,10 @@
 
 RaspberryPiとTimidity++を核にしたハードウェアシンセサイザーです。GM/GS/エクスクルーシブのメッセージが使えます。
 
+※作例。このリポジトリのソースコードにMIDIキーボードに関係するコードは含まれていません
+
+![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/ysynth_hard.jpg "作例")
+
 ## 概要
 RaspberryPi Zeroで動作するハードウェアシンセサイザーです。チャンネルごとにデータを送信、OLEDに表示するMIDIコントローラとしての機能と、チャンネルごとにデータを受信、OLEDに表示し、任意のサウンドフォント(.sf2)を鳴らせるMIDI音源としての機能、任意のMIDIファイルを自身や外部音源で演奏できるMIDIシーケンサーとしての機能を持ちます。
 
