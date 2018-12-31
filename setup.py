@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 import subprocess
 
-subprocess.call('sudo apt-get install -y libasound2-dev git build-essential python-dev libpython2.7-dev libpython3.4-dev libjack-jackd2-dev cython cython3 samba python-setuptools python3-setuptools python-smbus i2c-tools python3-smbus python-rpi.gpio python3-rpi.gpio python3-pip python-pip timidity' ,shell=True)
+subprocess.call('sudo apt-get install -y libasound2-dev git build-essential python-dev libpython2.7-dev libpython3.4-dev libjack-jackd2-dev cython cython3 samba python-setuptools python3-setuptools python-smbus i2c-tools python3-smbus python-rpi.gpio python3-rpi.gpio python3-pip python-pip timidity fluid-soundfont-gm' ,shell=True)
 subprocess.call('mkdir /home/pi/sf2' ,shell=True)
 subprocess.call('mkdir /home/pi/midi' ,shell=True)
+subprocess.call('sudo cp /home/pi/Ysynth/*.midi /home/pi/midi' ,shell=True)
 subprocess.call('mkdir /home/pi/timidity_cfg' ,shell=True)
 subprocess.call('sudo apt-get remove -y timidity-daemon' ,shell=True)
 subprocess.call('sudo systemctl disable timidity.service' ,shell=True)
 subprocess.call('sudo pip install python-rtmidi' ,shell=True)
 subprocess.call('sudo pip3 install python-rtmidi' ,shell=True)
+subprocess.call('sudo mv /usr/share/sounds/sf2/*.sf2 /home/pi/sf2' ,shell=True)
 script = '''
 # For more options and information see
 # http://rpf.io/configtxt
