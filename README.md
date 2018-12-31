@@ -11,7 +11,7 @@ RaspberryPi Zeroで動作するハードウェアシンセサイザーです
     Python : ver2.7 and ver3.5
     
 ## 回路図
-作成中
+![SS](https://github.com/YoutechA320U/Ysynth/blob/master/Ysynth.png"回路図")
 
 ## 必要な部品
 ※基板やピンソケット、つまみは除く
