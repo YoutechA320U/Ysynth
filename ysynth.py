@@ -150,6 +150,41 @@ while True:
     if msg and syokai == 0:
        message, deltatime = msg
        timer += deltatime
+       try:
+        if message == [240, 65, 16, 66, 18, 64, 0, 127, 0, 65, 247]or message == [240, 67, 16, 76, 0, 0, 126, 0, 247]or message == [240, 126, 127, 9, 1, 247]or message == [240, 126, 127, 9, 3, 247]:
+           midiPROG==[0]*16
+           midiCC7=  [100]*16
+           midiCC11=  [127]*16
+           midiCC10=  [64]*16
+           midiCC1=  [0]*16
+           midiCC91=  [40]*16
+           midiCC93=  [0]*16
+           midiCC94=  [0]*16
+           pb1 = [0]*16
+           pb2 = [0x40]*16
+           if mode == 0:
+              so1602.command(OLED_2ndline)
+              so1602.write('インストゥルメント:'+str("{0:03d}".format(midiPROG[midiCH] + 1))+"     ")
+           if mode == 1:
+              so1602.command(OLED_1stline)
+              so1602.write('ボリューム:'+str("{0:03d}".format(midiCC7[midiCH]))+"     ")
+              so1602.command(OLED_2ndline)
+              so1602.write('エクスプレッション:'+str("{0:03d}".format(midiCC11[midiCH]))+"     ")
+           if mode == 2:
+              so1602.command(OLED_1stline)
+              so1602.write('パン:'+str("{0:03d}".format(midiCC10[midiCH]-64))+"     ")
+              so1602.command(OLED_2ndline)
+              so1602.write('モジュレーション:'+str("{0:03d}".format(midiCC1[midiCH]))+"     ")
+           if mode == 3:
+              so1602.command(OLED_1stline)
+              so1602.write('リバーブ:'+str("{0:03d}".format(midiCC91[midiCH]))+"     ")
+              so1602.command(OLED_2ndline)
+              so1602.write('コーラス:'+str("{0:03d}".format(midiCC93[midiCH]))+"     ")
+           if mode == 4:
+              so1602.command(OLED_1stline)
+              so1602.write('ディレイ:'+str("{0:03d}".format(midiCC94[midiCH]))+"     ")
+              so1602.command(OLED_2ndline)
+              so1602.write('ピッチベンド:'+str("{0:04d}".format(0x80*pb2[midiCH]+pb1[midiCH]-8192))+"     ")
        for x in range(16):
         if message[0] == 192+x :
            midiPROG[x] = message[1]
@@ -206,8 +241,8 @@ while True:
               so1602.command(OLED_2ndline)
               so1602.write('ピッチベンド:'+str("{0:04d}".format(0x80*pb2[midiCH]+pb1[midiCH]-8192))+"     ")
        #print (message)
-    if GPIO.input(4) == 0:
-       if mode != 5 or mode != 6 or mode != 7 or mode != 8 :
+    if GPIO.input(4) == 0 and syokai == 0:
+       if 0<=mode<=4 :
           allnoteoff()
        if mode == 5 and playflag == 0 and syokai == 0 :
           playmidi = midi[midicounter]
@@ -300,7 +335,7 @@ while True:
       if volume <= 0:
          volume = 0
       subprocess.call('amixer cset numid=1 {}% > /dev/null' .format(volume), shell = True)
-      if mode == 5 or mode == 6 or mode == 7 or mode == 8: #特定のモードでOLEDに表示
+      if 7<=mode <= 8: #特定のモードでOLEDに表示
          so1602.command(OLED_2ndline)
          so1602.write("システムボリューム:"+str("{0:02}".format(volume))+"   ")
 
