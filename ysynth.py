@@ -329,7 +329,7 @@ while True:
     rotaryDeal_3()
     rotaryDeal_4()
 #右から1番目でボリューム、モード関係なしで変化。
-    if (prevolume != volume)　and syokai == 0:
+    if (prevolume != volume) and syokai == 0:
       if volume >= 101:
          volume = 100
       if volume <= 0:
