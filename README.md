@@ -96,7 +96,7 @@ OTG機能で他のパソコンなどとUSB接続する場合は「MIDI function�
 
 動作がおかしくなった場合、どちらを行っても症状がが改善しない場合は1度シャットダウンをして電源を入れ直してください。
 
-MIDIファイル、Timidity++の設定ファイルに使える文字は[so1602.py](https://github.com/YoutechA320U/Ysynth/blob/master/so1602.py)に依存します。対応していない文字を使ったファイルがあるとシステムが動作しなくなるので気をつけけてください。
+MIDIファイル、Timidity++の設定ファイルに使える文字は[so1602.py](https://github.com/YoutechA320U/Ysynth/blob/master/so1602.py)に依存します。対応していない文字を使ったファイルがあるとシステムが動作しなくなるので気をつけてください。
 
 ![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/oled3.jpg "OLED3")
 
