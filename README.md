@@ -1,6 +1,6 @@
 ## Ysynth
 
-RaspberryPiとTimidity++を核にしたハードウェアシンセサイザーです。GM/GS/エクスクルーシブのメッセージが使えます。
+RaspberryPiとTimidity++を核にしたハードウェアシンセサイザーです。GM/GS/XG/エクスクルーシブのメッセージが使えます。
 
 ## 概要
 RaspberryPi Zeroで動作するハードウェアシンセサイザーです。チャンネルごとにデータを送信、OLEDに表示するMIDIコントローラとしての機能と、チャンネルごとにデータを受信、OLEDに表示し、任意のサウンドフォント(.sf2)を鳴らせるMIDI音源としての機能、任意のMIDIファイルを自身や外部音源で演奏できるMIDIシーケンサーとしての機能を持ちます。
@@ -10,7 +10,7 @@ RaspberryPi Zeroで動作するハードウェアシンセサイザーです。�
 ![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/ysynth_hard.jpg "作例")
 
 ## スペック
-    ※GM/GS/エクスクルーシブメッセージ対応
+    ※GM/GS/XG/エクスクルーシブメッセージ対応
     システム:RaspberryPi Zero, Raspbian stretch Lite
     パート数:16
     最大同時発音数:64
