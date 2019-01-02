@@ -48,7 +48,7 @@ RaspberryPi Zeroで動作するハードウェアシンセサイザーです。�
 ## インストール方法
 ※OSはRaspbian stretch Lite前提です。インストールの時のみ、より高性能なRaspberryPi 3B+を使うことを強くおすすめします。
 
-1.まず以下のコマンドを実行します。
+1.RaspberryPiをネットワークに接続して以下のコマンドを実行します。
 
     sudo apt-get update
     sudo apt-get upgrade -y
