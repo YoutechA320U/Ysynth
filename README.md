@@ -46,7 +46,7 @@ RaspberryPi Zeroで動作するハードウェアシンセサイザーです。�
 |半固定抵抗|[10kΩ](http://akizukidenshi.com/catalog/g/gP-03277/)|1|
 |ミニジャック|[3.5mmステレオスイッチ付き](http://akizukidenshi.com/catalog/g/gC-08958/)|1|
 ## インストール方法
-※OSはRaspbian stretch Lite前提です。インストールの時のみ、より高性能なRaspberryPi 3B+を使うことを強くおすすめします。
+※OSはRaspbian stretch Lite前提です。インストールの時のみ、より高性能なRaspberryPi 3B+を使うことをおすすめします。
 
 1.RaspberryPiをネットワークに接続して以下のコマンドを実行します。
 
