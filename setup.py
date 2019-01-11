@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import subprocess
 
-subprocess.call('sudo apt-get install -y libasound2-dev git build-essential python-dev libpython2.7-dev libpython3.4-dev libjack-jackd2-dev cython cython3 samba python-setuptools python3-setuptools python-smbus i2c-tools python3-smbus python-rpi.gpio python3-rpi.gpio python3-pip python-pip timidity fluid-soundfont-gm' ,shell=True)
+subprocess.call('sudo apt-get install -y libasound2-dev git build-essential python-dev libpython2.7-dev libpython3.4-dev libjack-jackd2-dev cython cython3 samba python-setuptools python3-setuptools python-smbus i2c-tools python3-smbus python-rpi.gpio python3-rpi.gpio python3-pip python-pip timidity fluid-soundfont-gm fluid-soundfont-gs' ,shell=True)
 subprocess.call('mkdir /home/pi/sf2' ,shell=True)
 subprocess.call('mkdir /home/pi/midi' ,shell=True)
 subprocess.call('mkdir /home/pi/timidity_cfg' ,shell=True)
