@@ -3,10 +3,9 @@
 RaspberryPiとTimidity++を核にしたハードウェアシンセサイザーです。GM/GS/XG/エクスクルーシブのメッセージが使えます。
 
 ## ライセンス
-Ysynthのシステムを構成するソフトウェアの内、セットアップ時にインストールされる[Timidity++](http://timidity.sourceforge.net/)は`GPLライセンス`です。また同じくセットアップ時にインストールされる[RtMidi](https://www.music.mcgill.ca/~gary/rtmidi/)、[python-rtmidi](https://github.com/SpotlightKid/python-rtmidi)、FluidR3_GM.sf2及びYsynthのソースコードそのものは`MITライセンス`となっています。
+Ysynthは複数のソフトウェアで構成されていますが、Ysynthのソースコードそのものは`MITライセンス`となっています。
 
-
-![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/GPLv3_Logo.png "GPLv3") ![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/MIT_logo.png "MIT")
+![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/MIT_logo.png "MIT")
 ## 概要
 RaspberryPi Zeroで動作するハードウェアシンセサイザーです。チャンネルごとにデータを送信、OLEDに表示するMIDIコントローラとしての機能と、チャンネルごとにデータを受信、OLEDに表示し、任意のサウンドフォント(.sf2)を鳴らせるMIDI音源としての機能、任意のMIDIファイルを自身や外部音源で演奏できるMIDIシーケンサーとしての機能を持ちます。
 
