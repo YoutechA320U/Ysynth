@@ -119,9 +119,15 @@ midicounter = 0
 sf2counter = 0
 midiquant = int(subprocess.check_output('ls -U1 /home/pi/midi/*.mid | wc -l' ,shell=True))
 midi = subprocess.check_output('ls /home/pi/midi/*.mid' ,shell=True).decode('utf-8').strip().replace('/home/pi/midi/', '').replace('.mid', '').split('\n')
-sf2quant = int(subprocess.check_output('ls -U1 /home/pi/timidity_cfg/*.cfg | wc -l' ,shell=True))
-sf2 = subprocess.check_output('ls /home/pi/timidity_cfg/*.cfg' ,shell=True).decode('utf-8').strip().replace('/home/pi/timidity_cfg/', '').replace('.cfg', '').split('\n')
-midiout = rtmidi.MidiOut()
+sf2quant = int(subprocess.check_output('ls -U1 /home/pi/sf2/*.sf2 | wc -l' ,shell=True))
+sf2 = subprocess.check_output('ls /home/pi/sf2/*.sf2' ,shell=True).decode('utf-8').strip().replace('/home/pi/sf2/', '').replace('.sf2', '').split('\n')
+cfgquant = int(subprocess.check_output('ls -U1 /home/pi/timidity_cfg/*.cfg | wc -l' ,shell=True))
+##cfg自動生成
+if sf2quant != cfgquant:
+ subprocess.call('rm /home/pi/timidity_cfg/*.cfg' ,shell=True)
+ for x in range(sf2quant):
+  subprocess.call( '/home/pi/Ysynth/cfgforsf -S -C /home/pi/sf2/{}.sf2 /home/pi/timidity_cfg/temp.cfg' .format(sf2[x])  ,shell=True)
+  subprocess.call( 'uniq /home/pi/timidity_cfg/temp.cfg /home/pi/timidity_cfg/{}.cfg' .format(sf2[x])  ,shell=True)midiout = rtmidi.MidiOut()
 midiout.open_virtual_port("Ysynth_out") # 仮想MIDIポートの名前
 def GM1_System_ON():
         midiout.send_message([0xF0, 0x7E, 0x7F])
@@ -250,7 +256,7 @@ while True:
           allnoteoff()
           so1602.command(0x80+0x05)
           so1602.write("サイセイ")
-          subprocess.Popen('aplaymidi -p 129:0 /home/pi/midi/{}.mid' .format(playmidi), shell = True)
+          subprocess.Popen('aplaymidi -p 14:0 /home/pi/midi/{}.mid' .format(playmidi), shell = True)
           playflag = 1
           while (GPIO.input(4) == 0):
              pass
@@ -273,19 +279,17 @@ while True:
           so1602.command(0x80+0x0a)
           subprocess.Popen('timidity -c /home/pi/timidity_cfg/{}.cfg' .format(timidity_cfg), shell = True)
           time.sleep(1.5)
-          subprocess.call("sh /home/pi/Ysynth/midiconnect.sh" , shell = True)
-          so1602.write("OK")
-          time.sleep(2.0)
+          subprocess.call("sh /home/pi/midiconnect.sh" , shell = True)
           while (GPIO.input(4) == 0):
              pass
           if syokai == 1:
              midiin = rtmidi.MidiIn()
              midiin.open_virtual_port("Ysynth_in") # 仮想MIDIポートの名前
-             midiin.ignore_types(sysex=False, timing=False, active_sense=False)
+             midiin.ignore_types(sysex=False)
              syokai = 0
-          time.sleep(1)
-          subprocess.call(['aconnect', '20:0', '130:0'])
-          subprocess.call(['aconnect', '24:0', '130:0'])
+          subprocess.call("sh /home/pi/midiconnect.sh" , shell = True)
+          so1602.write("OK")
+          time.sleep(2)
           mode = 0
           midiCH = 0
           midiPROG=  [0]*16
