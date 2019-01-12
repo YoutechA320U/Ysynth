@@ -13,8 +13,8 @@ RaspberryPi Zeroで動作するハードウェアシンセサイザーです。�
 ![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/ysynth_hard.jpg "作例")
 
 ## スペック
-    *GM/GS/XG/エクスクルーシブメッセージ対応
-    *Timidity++ version 2.13.2
+    *GM/GS/XG/エクスクルーシブメッセージ対応*
+    *Timidity++ version 2.13.2*
     システム:RaspberryPi Zero, Raspbian stretch Lite
     パート数:16
     最大同時発音数:64
