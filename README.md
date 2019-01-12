@@ -80,7 +80,7 @@ RaspberryPi Zeroで動作するハードウェアシンセサイザーです。�
 
 それぞれmidiフォルダにMIDIファイル（拡張子.mid、1つでもMIDIファイルを入れたのなら最初に入っているdummy.midは削除しても大丈夫です）を、sf2フォルダにサウンドフォント（拡張子.sf2）を入れてください。
 
-指定された拡張子以外のファイルは認識されません。
+指定された拡張子以外のファイル、対応していないサウンドフォントは認識されません。
 
 ![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/netfolder.png "ネットワークフォルダの例")
 
