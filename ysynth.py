@@ -138,6 +138,7 @@ if sf2 != cfg:
   subprocess.call("sed -e 's/(null)//' -e 's/^[ ]*//g' -e '/(null)#/d' -e '/^$/d' -e /^#/d /home/pi/timidity_cfg/tmp.tmp > /home/pi/timidity_cfg/{}.cfg" .format(sf2[x])  ,shell=True)
   subprocess.call('find /home/pi/timidity_cfg -empty -delete' ,shell=True)
   cfg = subprocess.check_output('ls /home/pi/timidity_cfg/*.cfg' ,shell=True).decode('utf-8').strip().replace('/home/pi/timidity_cfg/', '').replace('.cfg', '').split('\n')
+ subprocess.call('sudo chown -R pi:pi /home/pi/timidity_cfg' ,shell=True)
  subprocess.call('rm /home/pi/timidity_cfg/*.tmp' ,shell=True)
 if sf2 == cfg:
    time.sleep(4.0)
