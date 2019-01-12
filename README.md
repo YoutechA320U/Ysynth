@@ -110,6 +110,7 @@ MIDIファイル、Timidity++の設定ファイルに使える文字は[so1602.p
  * <https://hawksnowlog.blogspot.com/2017/01/raspberrypi-with-rotaryencoder-python.html>
  * <https://www.denshi.club/pc/raspi/i2caqmlcdarduinode1-aqm0802-3.html>  
  * <https://github.com/SpotlightKid/python-rtmidi>  
+ * <http://d.hatena.ne.jp/kakurasan/20080409/p1>
 ## 履歴
     [2018/10/11] - リポジトリ立ち上げ
     [2018/12/31] - 初回リリース
