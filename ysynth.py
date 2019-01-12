@@ -117,17 +117,31 @@ def rotaryDeal_4():
 
 midicounter = 0
 sf2counter = 0
+so1602.command(OLED_1stline)
+so1602.write("     コンニチハ!")
+so1602.command(OLED_2ndline)
+so1602.write("     Ysynth")
+##cfg自動生成
 midiquant = int(subprocess.check_output('ls -U1 /home/pi/midi/*.mid | wc -l' ,shell=True))
 midi = subprocess.check_output('ls /home/pi/midi/*.mid' ,shell=True).decode('utf-8').strip().replace('/home/pi/midi/', '').replace('.mid', '').split('\n')
 sf2quant = int(subprocess.check_output('ls -U1 /home/pi/sf2/*.sf2 | wc -l' ,shell=True))
 sf2 = subprocess.check_output('ls /home/pi/sf2/*.sf2' ,shell=True).decode('utf-8').strip().replace('/home/pi/sf2/', '').replace('.sf2', '').split('\n')
 cfgquant = int(subprocess.check_output('ls -U1 /home/pi/timidity_cfg/*.cfg | wc -l' ,shell=True))
-##cfg自動生成
-if sf2quant != cfgquant:
+try:
+ cfg = subprocess.check_output('ls /home/pi/timidity_cfg/*.cfg' ,shell=True).decode('utf-8').strip().replace('/home/pi/timidity_cfg/', '').replace('.cfg', '').split('\n')
+except:
+ cfg = 0
+if sf2 != cfg:
  subprocess.call('rm /home/pi/timidity_cfg/*.cfg' ,shell=True)
  for x in range(sf2quant):
-  subprocess.call( '/home/pi/Ysynth/cfgforsf -S -C /home/pi/sf2/{}.sf2 /home/pi/timidity_cfg/temp.cfg' .format(sf2[x])  ,shell=True)
-  subprocess.call( 'uniq /home/pi/timidity_cfg/temp.cfg /home/pi/timidity_cfg/{}.cfg' .format(sf2[x])  ,shell=True)midiout = rtmidi.MidiOut()
+  subprocess.call( '/home/pi/cfgforsf -C /home/pi/sf2/{}.sf2 /home/pi/timidity_cfg/tmp.tmp' .format(sf2[x])  ,shell=True)
+  subprocess.call( "sed -e 's/^[ ]*//g' -e '/(null)/d' -e '/^$/d' -e /^#/d /home/pi/timidity_cfg/tmp.tmp > /home/pi/timidity_cfg/{}.cfg" .format(sf2[x])  ,shell=True)
+  subprocess.call('rm /home/pi/timidity_cfg/*.tmp' ,shell=True)
+  subprocess.call('find /home/pi/timidity_cfg -empty -delete' ,shell=True)
+  cfg = subprocess.check_output('ls /home/pi/timidity_cfg/*.cfg' ,shell=True).decode('utf-8').strip().replace('/home/pi/timidity_cfg/', '').replace('.cfg', '').split('\n')
+
+if sf2 == cfg:
+   time.sleep(4.0)
 midiout.open_virtual_port("Ysynth_out") # 仮想MIDIポートの名前
 def GM1_System_ON():
         midiout.send_message([0xF0, 0x7E, 0x7F])
@@ -137,17 +151,12 @@ def allnoteoff():
     while (a < 0xbf ):
         midiout.send_message([a, 0x78, 0x00])
         a += 1
-so1602.command(OLED_1stline)
-so1602.write("     コンニチハ!")
-so1602.command(OLED_2ndline)
-so1602.write("     Ysynth")
-time.sleep(4.0)
 so1602.command(clear)
 ##初期設定ここまで##
 so1602.command(OLED_1stline)
 so1602.write("サウンドフォント:     ")
 so1602.command(OLED_2ndline)
-so1602.write(str("{0:02}" .format(sf2counter + 1))+":"+sf2[sf2counter])
+so1602.write(str("{0:02}" .format(sf2counter + 1))+":"+cfg[sf2counter])
 msg = 0
 timer = time.time()
 while True:
@@ -271,13 +280,12 @@ while True:
              pass
 
        if mode == 6 or syokai == 1:
-          timidity_cfg = sf2[sf2counter]
           subprocess.call(['sudo', 'killall', 'aplaymidi'])
           subprocess.call(['sudo', 'killall', 'timidity'])
           allnoteoff()
           so1602.command(OLED_1stline)
           so1602.command(0x80+0x0a)
-          subprocess.Popen('timidity -c /home/pi/timidity_cfg/{}.cfg' .format(timidity_cfg), shell = True)
+          subprocess.Popen('timidity -c /home/pi/timidity_cfg/{}.cfg' .format(cfg[sf2counter]), shell = True)
           time.sleep(1.5)
           subprocess.call("sh /home/pi/midiconnect.sh" , shell = True)
           while (GPIO.input(4) == 0):
