@@ -7,7 +7,6 @@ subprocess.call('mkdir /home/pi/midi' ,shell=True)
 subprocess.call('mkdir /home/pi/timidity_cfg' ,shell=True)
 subprocess.call('sudo chown -R pi:pi /home/pi/' ,shell=True)
 subprocess.call('sudo cp /home/pi/Ysynth/*.mid /home/pi/midi' ,shell=True)
-subprocess.call('sudo cp /home/pi/Ysynth/*.cfg /home/pi/timidity_cfg' ,shell=True)
 subprocess.call('sudo apt-get remove -y timidity-daemon' ,shell=True)
 subprocess.call('sudo systemctl disable timidity.service' ,shell=True)
 subprocess.call('sudo pip install python-rtmidi' ,shell=True)
@@ -423,12 +422,6 @@ script = '''
 # Please note that you also need to set appropriate Unix permissions
 # to the drivers directory for these users to have write rights in it
 ;   write list = root, @lpadmin
-
-[timidity_cfg]
-path = /home/pi/timidity_cfg
-read only = No
-guest ok = Yes
-force user = pi
 
 [midi]
 path = /home/pi/midi
