@@ -42,6 +42,7 @@ RaspberryPi Zeroで動作するハードウェアシンセサイザーです。�
 |部品名|型番など|数量|
 |:---|:--:|---:|
 |RaspberryPi|[RaspberryPiZeroWH](http://akizukidenshi.com/catalog/g/gM-12961/)|1|
+|micoSDカード|クラス10またはUHF-1以上かつ16GB以上|
 |I2S接続オーディオDAC|Pi-DAC+相当のDAC[(Pi-DAC Zeroなど)](http://akizukidenshi.com/catalog/g/gM-13306/)|1|
 |I2C接続16x2有機ELディスプレイ|[SO1602](http://akizukidenshi.com/catalog/g/gP-08277/)|1|
 |ロータリーエンコーダ|[EC12E2420801](http://akizukidenshi.com/catalog/g/gP-06357/)|4|
