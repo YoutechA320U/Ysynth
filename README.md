@@ -88,11 +88,13 @@ RaspberryPi Zeroで動作するハードウェアシンセサイザーです。�
 ![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/oled2.jpg "OLED2")
 
 ロータリーエンコーダ3でモードを切り替えて上段に`OTG_Mode_Change?`と表示されている時に押しボタンスイッチを押すと下段に`mass_storage`と表示され、この間は他の全ての機能が停止し、OTG機能で他のパソコンなどとUSB接続すると4GBのUSBメモリーとして認識されます。
-
+![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/oled4.jpg "OLED4")
+![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/disk1.png "SS")
+![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/disk2.png "SS")
 この時にmidiフォルダに標準MIDIファイル（拡張子 .mid）を、sf2フォルダにサウンドフォント（拡張子 .sf2）を入れる事ができます。もう1度押しボタンスイッチを押すとUSBメモリーとしての認識が解除され更に下段に`Ysynth_Restart`と表示されシステムがリロードされ、フォルダの変更が反映されます。この時必ずパソコン側で取り出し、アンマウントを行ってから、押しボタンスイッチを押してください。
 
 ## 備考
-OTG機能で他のパソコンなどとUSB接続する場合は「MIDI function」または「MIDI Gadget」という名前で認識されます。
+OTG機能で他のパソコンなどとUSB接続する場合はUSBメモリー状態以外では「MIDI function」または「MIDI Gadget」という名前で認識されます。
 
 システムのリロードはYsynthのスクリプトとTimidity++をリセット、再起動します。また、サウンドフォントを変更した場合はTimidity++のみが再起動します。
 
@@ -102,7 +104,7 @@ RaspberryPi Zeroのメモリは512MBなので、サウンドフォントのサ�
 
 MIDIファイル、Timidity++の設定ファイルに使える文字は[so1602.py](https://github.com/YoutechA320U/Ysynth/blob/master/so1602.py)に依存します。対応していない文字を使ったファイルがあるとその文字列が表示される段に`Character_Error`と表示されるので修正してください。
 
-![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/oled3.jpg "OLED3") ![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/oled4.jpg "OLED4")
+![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/oled3.jpg "OLED3")
 
 ### 参考コード・資料
  * <http://artteknika.hatenablog.com/entry/2017/04/28/185509>  
@@ -116,4 +118,4 @@ MIDIファイル、Timidity++の設定ファイルに使える文字は[so1602.p
     [2019/01/01] - いくつか追記
     [2019/01/03] - ライセンスを明記
     [2019/01/12] - Timidity++_cfgファイルを自動生成に変更
-    [2019/01/17] - オフライン化
+    [2019/01/17] - 動作のオフライン化、各種不具合(仕様)を修正
