@@ -90,7 +90,9 @@ RaspberryPi Zeroで動作するハードウェアシンセサイザーです。�
 ロータリーエンコーダ3でモードを切り替えて上段に`OTG_Mode_Change?`と表示されている時に押しボタンスイッチを押すと下段に`mass_storage`と表示され、この間は他の全ての機能が停止し、OTG機能で他のパソコンなどとUSB接続すると4GBのUSBメモリーとして認識されます。
 
 ![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/oled4.jpg "OLED4")
+
 ![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/disk1.png "SS")
+
 ![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/disk2.png "SS")
 
 この時にmidiフォルダに標準MIDIファイル（拡張子 .mid）を、sf2フォルダにサウンドフォント（拡張子 .sf2）を入れる事ができます。もう1度押しボタンスイッチを押すとUSBメモリーとしての認識が解除され更に下段に`Ysynth_Restart`と表示されシステムがリロードされ、フォルダの変更が反映されます。この時必ずパソコン側で取り出し、アンマウントを行ってから、押しボタンスイッチを押してください。
