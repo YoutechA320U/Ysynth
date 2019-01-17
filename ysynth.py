@@ -121,7 +121,7 @@ sf2counter = 0
 so1602.command(OLED_1stline)
 so1602.write("   Ysynth_V2")
 so1602.command(OLED_2ndline)
-so1602.write("  byYoutechA320U")
+so1602.write(" by_YoutechA320U")
 subprocess.call('sudo mount -t vfat -o uid=pi,iocharset=utf8,loop,offset=1048576 /home/pi/g_mass_storage.img /mnt/g_mass_storage/' ,shell=True)
 subprocess.call('sudo modprobe -r g_mass_storage', shell=True)
 subprocess.call('sudo modprobe g_midi', shell=True)
