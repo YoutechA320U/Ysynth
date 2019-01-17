@@ -238,15 +238,23 @@ def setaddr( address ):
 def command( code ):
         global addr
         i2c.write_byte_data(addr, 0x00, code)
-        time.sleep(0.0002)
+        time.sleep(0.0001)
         
 
 def write( message ):
-    global addr
-    if sys.version_info.major == 2 :
-       message = message.decode('utf-8')
-    mojilist = []
-    for char in message:
-        mojilist += CHAR_TABLE[char]
-        time.sleep(0.00002)
-    i2c.write_i2c_block_data(addr, 0x40, mojilist)
+    try:
+     global addr
+     if sys.version_info.major == 2 :
+        message = message.decode('utf-8')
+     mojilist = []
+     for char in message:
+         mojilist += CHAR_TABLE[char]
+         time.sleep(0.00001)
+     i2c.write_i2c_block_data(addr, 0x40, mojilist)
+    except KeyError:
+     mojilist = []
+     error = 'CharacterError'
+     for char in error:
+         mojilist += CHAR_TABLE[char]
+         time.sleep(0.00001)
+     i2c.write_i2c_block_data(addr, 0x40, mojilist)
