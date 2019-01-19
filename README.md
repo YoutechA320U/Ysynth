@@ -54,20 +54,20 @@ RaspberryPi Zeroで動作するハードウェアシンセサイザーです。�
 ## インストール方法
 ※OSはRaspbian stretch Lite前提です。インストールの時のみ、より高性能なRaspberryPi 3B+を使うことをおすすめします。
 
-1.RaspberryPiをネットワークに接続して以下のコマンドを実行します。
+1. RaspberryPiをネットワークに接続して以下のコマンドを実行します。
 
     sudo apt-get update
     sudo apt-get upgrade -y
     sudo apt-get install -y git
     git clone https://github.com/YoutechA320U/Ysynth.git
 
-2.何らかのエディタで`/boot/cmdline.txt`の末尾に改行せずに`modules-load=dwc2,g_midi`を追加します。
+2. 何らかのエディタで`/boot/cmdline.txt`の末尾に改行せずに`modules-load=dwc2,g_midi`を追加します。
 
-3.`cd /home/pi/Ysynth`でカレントディレクトリを`Ysynth`に移動します。
+3. `cd /home/pi/Ysynth`でカレントディレクトリを`Ysynth`に移動します。
 
-4.`sudo python setup.py`でセットアップスクリプトを実行します。完了すると自動的に再起動します。
+4. `sudo python setup.py`でセットアップスクリプトを実行します。完了すると自動的に再起動します。
 
-5.有機ELディスプレイにメッセージが表示されたら完了です。
+5. 有機ELディスプレイにメッセージが表示されたら完了です。
 
 ## 操作方法
 ロータリーエンコーダ1(回路図中のRoEn1)でディスプレイ上段に表示される値を、ロータリーエンコーダ2(回路図中のRoEn2)でディスプレイ下段に表示される値を操作します。
@@ -79,15 +79,19 @@ RaspberryPi Zeroで動作するハードウェアシンセサイザーです。�
 押しボタンスイッチをチャンネル、インストゥルメント、コントロールチェンジがディスプレイに表示されている時に押すと全チャンネルにノートオフメッセージが送信されます。
 
 ## 使い方
-電源につなぐとまずサウンドフォントの選択画面になります。この時はロータリーエンコーダ2以外のロータリーエンコーダは動きません。
+1. 電源につなぐとまずサウンドフォントの選択画面になります。この時はロータリーエンコーダ2以外のロータリーエンコーダは動きません。
+
+※サウンドフォントが全くない場合は自動的に3に進みます。
 
 ![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/oled1.jpg "OLED1")
 
-ロータリーエンコーダ2でサウンドフォントを選択して押しボタンスイッチで決定します。チャンネルとインストゥルメント(プログラムチェンジ)が表示されたら操作可能になります。
+2. ロータリーエンコーダ2でサウンドフォントを選択して押しボタンスイッチで決定します。
+
+3. チャンネルとインストゥルメント(プログラムチェンジ)が表示されたら操作可能になります。
 
 ![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/oled2.jpg "OLED2")
 
-ロータリーエンコーダ3でモードを切り替えて上段に`OTG_Mode_Change?`と表示されている時に押しボタンスイッチを押すと下段に`mass_storage`と表示され、この間は他の全ての機能が停止し、OTG機能で他のパソコンなどとUSB接続すると4GBのUSBメモリーとして認識されます。
+4. ロータリーエンコーダ3でモードを切り替えて上段に`OTG_Mode_Change?`と表示されている時に押しボタンスイッチを押すと下段に`mass_storage`と表示されます。この間は一切の機能が停止し、OTG機能で他のパソコンなどとUSB接続すると4GBのUSBメモリーとして認識されます。
 
 ![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/oled4.jpg "OLED4")
 
@@ -96,6 +100,8 @@ RaspberryPi Zeroで動作するハードウェアシンセサイザーです。�
 ![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/disk2.png "SS")
 
 この時にmidiフォルダに標準MIDIファイル（拡張子 .mid）を、sf2フォルダにサウンドフォント（拡張子 .sf2）を入れる事ができます。もう1度押しボタンスイッチを押すとUSBメモリーとしての認識が解除され更に下段に`Ysynth_Restart`と表示されシステムがリロードされ、フォルダの変更が反映されます。この時必ずパソコン側で取り出し、アンマウントを行ってから、押しボタンスイッチを押してください。
+
+※異なる拡張子のファイルは認識されません。また、大文字の場合も認識しないので気をつけてください。
 
 ## 備考
 OTG機能で他のパソコンなどとUSB接続する場合はUSBメモリー状態以外では「MIDI function」または「MIDI Gadget」という名前で認識されます。
@@ -106,7 +112,7 @@ OTG機能で他のパソコンなどとUSB接続する場合はUSBメモリー�
 
 RaspberryPi Zeroのメモリは512MBなので、サウンドフォントのサイズは1つあたり200MB程度までにしてください。あまり大きいサイズのサウンドフォントだとメモリ不足で音飛びやフリーズが発生する可能性があります。
 
-MIDIファイル、Timidity++の設定ファイルに使える文字は[so1602.py](https://github.com/YoutechA320U/Ysynth/blob/master/so1602.py)に依存します。対応していない文字を使ったファイルがあるとその文字列が表示される段に`Character_Error`と表示されるので修正してください。
+MIDIファイル、Timidity++の設定ファイルに使える文字は[so1602.py](https://github.com/YoutechA320U/Ysynth/blob/master/so1602.py)に依存します。対応していない文字をファイル名に使うとディスプレイに`Name_Error`と表示されるので修正してください。（選択はできます）
 
 ![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/oled3.jpg "OLED3")
 
