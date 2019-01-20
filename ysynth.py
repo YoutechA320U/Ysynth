@@ -149,6 +149,8 @@ if (sf2 != cfg) and (sf2[0] != "sf2_None"):
   subprocess.call("sed -e 's/(null)//' -e 's/^[ ]*//g' -e '/(null)#/d' -e '/^$/d' -e /^#/d /home/pi/timidity_cfg/tmp > /home/pi/timidity_cfg/{}.cfg" .format(list_difference[x]) ,shell=True)
  subprocess.call('rm /home/pi/timidity_cfg/tmp' ,shell=True)
  subprocess.call('sudo chown -R pi:pi /home/pi/timidity_cfg' ,shell=True)
+if sf2[0] == "sf2_None":
+   subprocess.call('sudo rm /home/pi/timidity_cfg/*.cfg' ,shell=True)
 time.sleep(2.0)
 otg_mode = subprocess.check_output("lsmod | grep g_ |head -1| awk '{print $1}'" ,shell=True).decode('utf-8').strip().split('\n')
 midiout = rtmidi.MidiOut()
