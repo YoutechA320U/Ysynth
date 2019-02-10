@@ -7,6 +7,8 @@ import sys
 i2c = smbus.SMBus(1)
 
 CHAR_TABLE = {
+    u'△': [0x00],
+    u'♪': [0x01],    
     u'†': [0x11],
     u'§': [0x12],
     u'¶': [0x13],
@@ -234,6 +236,10 @@ CHAR_TABLE = {
 def setaddr( address ):
         global addr
         addr = address
+        i2c.write_byte_data(addr, 0x00, 0x40)
+        i2c.write_i2c_block_data(addr, 0x40, [0x08, 0x0c, 0x0e, 0x0f, 0x0f, 0x0e, 0xc, 0x08])
+        i2c.write_byte_data(addr, 0x00, 0x48)
+        i2c.write_i2c_block_data(addr, 0x40, [0x04, 0x06, 0x05, 0x04, 0x04, 0x0c, 0x1c, 0x08])
 
 def command( code ):
         global addr
@@ -253,7 +259,7 @@ def write( message ):
      i2c.write_i2c_block_data(addr, 0x40, mojilist)
     except KeyError:
      mojilist = []
-     error = 'CharacterError'
+     error = 'Name_Error'
      for char in error:
          mojilist += CHAR_TABLE[char]
          time.sleep(0.00001)

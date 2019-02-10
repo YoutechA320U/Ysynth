@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import subprocess
 subprocess.call('sudo mkdir /mnt/g_mass_storage' ,shell=True)
-subprocess.call('dd if=/dev/zero of=/home/pi/g_mass_storage.img bs=1M count=4096' ,shell=True)
+subprocess.call('dd if=/dev/zero of=/home/pi/g_mass_storage.img bs=64M count=64' ,shell=True)
 subprocess.call('sudo losetup /dev/loop0 /home/pi/g_mass_storage.img' ,shell=True)
 subprocess.call('sudo parted /dev/loop0 -s mklabel msdos mkpart primary fat32 2048s 100%' ,shell=True)
 subprocess.call('sudo mkfs.vfat /dev/loop0p1' ,shell=True)
@@ -140,7 +140,7 @@ opt p64a
 # reverb and chorus
 
 # By default, try to use the instrument patches from freepats:
-source /etc/timidity/freepats.cfg
+#source /etc/timidity/freepats.cfg
 
 # alternatively, you can use the fluid-soundfont:
 #source /etc/timidity/fluidr3_gm.cfg
