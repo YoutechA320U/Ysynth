@@ -49,6 +49,7 @@ pb1 = [0]*16
 pb2 = [0x40]*16
 playflag = [0]
 sf2used = [0]
+#aplaymidi = 0
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(input_A, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -122,18 +123,12 @@ def rotaryDeal_4():
 midicounter = 0
 sf2counter = 0
 so1602.command(OLED_1stline)
-so1602.write("    Hellow!")
-time.sleep(1.0)
+so1602.write("   Ysynth_V2.1")
 so1602.command(OLED_2ndline)
-so1602.write("  Ysynth_V2.1")
-time.sleep(2.0)
-so1602.command(clear)
-so1602.command(OLED_1stline)
-so1602.write("       by")
-time.sleep(1.0)
-so1602.command(OLED_2ndline)
-so1602.write("  YoutechA320U")
-time.sleep(2.0)
+so1602.write("by_YoutechA320U")
+subprocess.call('sudo mount -t vfat -o uid=pi,iocharset=utf8,loop,offset=1048576 /home/pi/g_mass_storage.img /mnt/g_mass_storage/' ,shell=True)
+subprocess.call('sudo modprobe -r g_mass_storage', shell=True)
+subprocess.call('sudo modprobe g_midi', shell=True)
 
 try:
   midi = subprocess.check_output('ls -v /mnt/g_mass_storage/midi/*.mid' ,shell=True).decode('utf-8').strip().replace('/mnt/g_mass_storage/midi/', '').replace('.mid', '').split('\n')
@@ -157,7 +152,7 @@ if (sf2 != cfg) and (sf2[0] != "sf2_None"):
   subprocess.call('sudo rm /home/pi/timidity_cfg/{}.cfg' .format(list_difference[x])  ,shell=True)
  list_difference = list(set(sf2) - set(cfg))
  for x in range(len(list_difference)):
-  subprocess.call('sudo /home/pi/Ysnth/cfgforsf -C /mnt/g_mass_storage/sf2/{}.sf2 /home/pi/timidity_cfg/tmp' .format(list_difference[x])  ,shell=True)
+  subprocess.call('sudo /home/pi/cfgforsf -C /mnt/g_mass_storage/sf2/{}.sf2 /home/pi/timidity_cfg/tmp' .format(list_difference[x])  ,shell=True)
   subprocess.call("sed -e 's/(null)//' -e 's/^[ ]*//g' -e '/(null)#/d' -e '/^$/d' -e /^#/d /home/pi/timidity_cfg/tmp > /home/pi/timidity_cfg/{}.cfg" .format(list_difference[x]) ,shell=True)
  subprocess.call('rm /home/pi/timidity_cfg/tmp' ,shell=True)
  subprocess.call('sudo chown -R pi:pi /home/pi/timidity_cfg' ,shell=True)
@@ -165,11 +160,12 @@ if sf2[0] == "sf2_None":
    subprocess.call('sudo rm /home/pi/timidity_cfg/*.cfg' ,shell=True)
 otg_mode = subprocess.check_output("lsmod | grep g_ |head -1| awk '{print $1}'" ,shell=True).decode('utf-8').strip().split('\n')
 midiout = rtmidi.MidiOut()
-midiout.open_virtual_port("Ysynth_out") # 仮想MIDI出力ポートの名前
+midiout.open_virtual_port("Ysynth_out") # 仮想MIDIポートの名前
 time.sleep(1.0)
 midiin = rtmidi.MidiIn()
-midiin.open_virtual_port("Ysynth_in") # 仮想MIDI入力ポートの名前
+midiin.open_virtual_port("Ysynth_in") # 仮想MIDIポートの名前
 midiin.ignore_types(sysex=False)
+time.sleep(3.0)
 def allnoteoff():
     a = 0xb0
     while (a < 0xbf ):
@@ -182,7 +178,9 @@ if rock_flag == 0:
    so1602.write('チャンネル:'+str("{0:02}".format(midiCH + 1))+"     ")
    so1602.command(OLED_2ndline)
    so1602.write('インストゥルメント:'+str("{0:03d}".format(midiPROG[midiCH] + 1))+"     ")
-   subprocess.call("sh /home/pi/Ysnth/midiconnect.sh" , shell = True)
+   subprocess.Popen("python3.5 /home/pi/UART-MIDI-Pi/uart-midi-in.py" ,shell=True)
+   time.sleep(1.0)
+   subprocess.call("sh /home/pi/midiconnect.sh" , shell = True)
 if rock_flag == 1:
    so1602.command(OLED_1stline)
    so1602.write("サウンドフォント:     ")
@@ -330,7 +328,10 @@ while True:
           so1602.command(0x80+0x0a)
           subprocess.Popen('timidity -c /home/pi/timidity_cfg/{}.cfg' .format(sf2[sf2counter]), shell = True)
           time.sleep(1.5)
-          subprocess.call("sh /home/pi/Ysnth/midiconnect.sh" , shell = True)
+          if rock_flag == 1:
+             subprocess.Popen("python3.5 /home/pi/UART-MIDI-Pi/uart-midi-in.py" ,shell=True)
+          time.sleep(1)
+          subprocess.call("sh /home/pi/midiconnect.sh" , shell = True)
           while (GPIO.input(4) == 0):
              pass
           so1602.write("OK")
