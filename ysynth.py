@@ -62,12 +62,11 @@ GPIO.setup(input_H, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(input_I, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 rock_flag = 1
 
-
 def rotaryDeal_1():
   global volume, Last_input_C_Status, Current_input_C_Status, rock_flag
   Last_input_C_Status = GPIO.input(input_C)
   flag1 = 0
-  while GPIO.input(input_B) ==0 :
+  while GPIO.input(input_B) ==0 and (GPIO.input(input_D) !=0 or GPIO.input(input_F) !=0 or GPIO.input(input_H) !=0):
     Current_input_C_Status = GPIO.input(input_C)
     flag1 = 1
   if flag1 == 1 :
@@ -81,7 +80,7 @@ def rotaryDeal_2():
   global mode, Last_input_E_Status, Current_input_E_Status, rock_flag
   Last_input_E_Status = GPIO.input(input_E)
   flag2 = 0
-  while GPIO.input(input_D) ==0 :
+  while GPIO.input(input_D) ==0 and (GPIO.input(input_B) !=0 or GPIO.input(input_F) !=0 or GPIO.input(input_H) !=0):
     Current_input_E_Status = GPIO.input(input_E)
     flag2 = 1
   if flag2 == 1:
@@ -95,7 +94,7 @@ def rotaryDeal_3():
   global CC2, Last_input_G_Status, Current_input_G_Status, rock_flag
   Last_input_G_Status = GPIO.input(input_G)
   flag3 = 0
-  while GPIO.input(input_F) ==0 :
+  while GPIO.input(input_F) ==0 and (GPIO.input(input_B) !=0 or GPIO.input(input_D) !=0 or GPIO.input(input_H) !=0) :
     Current_input_G_Status = GPIO.input(input_G)
     flag3 = 1
   if flag3 == 1:
@@ -109,7 +108,7 @@ def rotaryDeal_4():
   global CC1, Last_input_I_Status, Current_input_I_Status, rock_flag
   Last_input_I_Status = GPIO.input(input_I)
   flag4 = 0
-  while GPIO.input(input_H)== 0:
+  while GPIO.input(input_H)== 0 and (GPIO.input(input_B) !=0 or GPIO.input(input_F) !=0 or GPIO.input(input_D) !=0):
     Current_input_I_Status = GPIO.input(input_I)
     flag4 = 1
   if flag4 == 1:
