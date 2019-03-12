@@ -307,7 +307,9 @@ while True:
              allnoteoff()
              so1602.command(0x80+0x05)
              so1602.write("△")
+             midi = [s.replace(' ', '\ ') for s in midi]
              aplaymidi = subprocess.Popen('aplaymidi -p 14:0 /mnt/g_mass_storage/midi/{}.mid' .format(midi[midicounter]), shell = True)
+             midi = [s.replace('\ ', ' ') for s in midi]
              playflag = [0]*len(midi)
              playflag[midicounter] = 1
              while (GPIO.input(4) == 0):
@@ -327,7 +329,9 @@ while True:
           allnoteoff()
           so1602.command(OLED_1stline)
           so1602.command(0x80+0x0a)
+          sf2 = [s.replace(' ', '\ ') for s in sf2]
           subprocess.Popen('timidity -c /home/pi/timidity_cfg/{}.cfg' .format(sf2[sf2counter]), shell = True)
+          sf2 = [s.replace('\ ', ' ') for s in sf2]
           time.sleep(1.5)
           subprocess.call("sh /home/pi/Ysnth/midiconnect.sh" , shell = True)
           while (GPIO.input(4) == 0):
