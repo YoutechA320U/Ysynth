@@ -7,16 +7,18 @@ subprocess.call('sudo parted /dev/loop0 -s mklabel msdos mkpart primary fat32 20
 subprocess.call('sudo mkfs.vfat /dev/loop0p1' ,shell=True)
 subprocess.call('sudo losetup -d /dev/loop0' ,shell=True)
 subprocess.call('sudo mount -t vfat -o uid=pi,iocharset=utf8,loop,offset=1048576 /home/pi/g_mass_storage.img /mnt/g_mass_storage/' ,shell=True)
-subprocess.call('sudo apt-get install -y libasound2-dev git build-essential python-dev libpython2.7-dev libpython3.4-dev libjack-jackd2-dev cython cython3 samba python-setuptools python3-setuptools python-smbus i2c-tools python3-smbus python-rpi.gpio python3-rpi.gpio python3-pip python-pip timidity fluid-soundfont-gm fluid-soundfont-gs' ,shell=True)
+subprocess.call('sudo apt-get install -y libasound2-dev git build-essential python3-dev libpython3.5-dev libjack-jackd2-dev cython3 python3-setuptools i2c-tools python3-smbus python3-rpi.gpio python3-pip timidity fluid-soundfont-gm fluid-soundfont-gs' ,shell=True)
 subprocess.call('sudo mkdir /mnt/g_mass_storage/sf2' ,shell=True)
 subprocess.call('sudo mkdir /mnt/g_mass_storage/midi' ,shell=True)
 subprocess.call('mkdir /home/pi/timidity_cfg' ,shell=True)
 subprocess.call('sudo chown -R pi:pi /home/pi/' ,shell=True)
 subprocess.call('sudo apt-get remove -y timidity-daemon' ,shell=True)
 subprocess.call('sudo systemctl disable timidity.service' ,shell=True)
-subprocess.call('sudo pip install python-rtmidi' ,shell=True)
 subprocess.call('sudo pip3 install python-rtmidi' ,shell=True)
-subprocess.call('sudo mv /usr/share/sounds/sf2/*.sf2 /mnt/g_mass_storage/sf2' ,shell=True)
+subprocess.call('sudo cp /usr/share/sounds/sf2/*.sf2 /mnt/g_mass_storage/sf2' ,shell=True)
+subprocess.call('sudo rm /usr/share/sounds/sf2/*.sf2' ,shell=True)
+subprocess.call('sudo raspi-config nonint do_i2c 0' ,shell=True)
+subprocess.call('chmod +x /home/pi/Ysynth/cfgforsf' ,shell=True)
 script = '''
 # For more options and information see
 # http://rpf.io/configtxt
@@ -149,7 +151,7 @@ opt p64a
 f=open("/etc/timidity/timidity.cfg","wt")
 f.write(script)
 f.close()
-script = ''' 
+script = '''
 [Unit]
 Description = Ysynth
 
@@ -165,7 +167,7 @@ f=open("/etc/systemd/system/ysynth.service","wt")
 f.write(script)
 f.close()
 subprocess.call('sudo systemctl enable ysynth.service' ,shell=True)
-script = ''' 
+script = '''
 ACTION=="add", \
 SUBSYSTEMS=="usb", \
 RUN+="/bin/bash /home/pi/Ysynth/midiconnect.sh"
