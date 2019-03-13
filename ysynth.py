@@ -156,7 +156,7 @@ if (sf2 != cfg) and (sf2[0] != "sf2_None"):
   subprocess.call('sudo rm /home/pi/timidity_cfg/{}.cfg' .format(list_difference[x])  ,shell=True)
  list_difference = list(set(sf2) - set(cfg))
  for x in range(len(list_difference)):
-  subprocess.call('sudo /home/pi/Ysnth/cfgforsf -C /mnt/g_mass_storage/sf2/{}.sf2 /home/pi/timidity_cfg/tmp' .format(list_difference[x])  ,shell=True)
+  subprocess.call('sudo /home/pi/Ysynth/cfgforsf -C /mnt/g_mass_storage/sf2/{}.sf2 /home/pi/timidity_cfg/tmp' .format(list_difference[x])  ,shell=True)
   subprocess.call("sed -e 's/(null)//' -e 's/^[ ]*//g' -e '/(null)#/d' -e '/^$/d' -e /^#/d /home/pi/timidity_cfg/tmp > /home/pi/timidity_cfg/{}.cfg" .format(list_difference[x]) ,shell=True)
  subprocess.call('rm /home/pi/timidity_cfg/tmp' ,shell=True)
  subprocess.call('sudo chown -R pi:pi /home/pi/timidity_cfg' ,shell=True)
@@ -181,7 +181,7 @@ if rock_flag == 0:
    so1602.write('チャンネル:'+str("{0:02}".format(midiCH + 1))+"     ")
    so1602.command(OLED_2ndline)
    so1602.write('インストゥルメント:'+str("{0:03d}".format(midiPROG[midiCH] + 1))+"     ")
-   subprocess.call("sh /home/pi/Ysnth/midiconnect.sh" , shell = True)
+   subprocess.call("sh /home/pi/Ysynth/midiconnect.sh" , shell = True)
 if rock_flag == 1:
    so1602.command(OLED_1stline)
    so1602.write("サウンドフォント:     ")
@@ -333,7 +333,7 @@ while True:
           subprocess.Popen('timidity -c /home/pi/timidity_cfg/{}.cfg' .format(sf2[sf2counter]), shell = True)
           sf2 = [s.replace('\ ', ' ') for s in sf2]
           time.sleep(1.5)
-          subprocess.call("sh /home/pi/Ysnth/midiconnect.sh" , shell = True)
+          subprocess.call("sh /home/pi/Ysynth/midiconnect.sh" , shell = True)
           while (GPIO.input(4) == 0):
              pass
           so1602.write("OK")
