@@ -384,7 +384,6 @@ while True:
           if GPIO.input(4) == 0:
              if otg_mode[0] == 'g_mass_storage':
                 subprocess.call('sudo modprobe -r g_mass_storage', shell=True)
-                subprocess.call('sudo umount  /mnt/g_mass_storage/', shell=True)
                 so1602.command(OLED_2ndline)
                 so1602.write("Ysynth_Restart")
                 subprocess.call('sudo modprobe g_midi', shell=True)
@@ -411,7 +410,6 @@ while True:
       if 7<=mode <= 8: #特定のモードでOLEDに表示
          so1602.command(OLED_2ndline)
          so1602.write("システムボリューム:"+str("{0:02}".format(volume))+"   ")
-#         so1602.write("システムボリューム:"+str("{}".format(volume))+"   ")
 ###ロータリーエンコーダ4の処理ここまで
 ###ロータリーエンコーダ3の処理。右から2番目でモードチェンジ、モード関係なしで変化。
     if (premode != mode) and rock_flag == 0:
