@@ -133,7 +133,7 @@ time.sleep(1.0)
 so1602.command(OLED_2ndline)
 so1602.write("  YoutechA320U")
 time.sleep(2.0)
-
+subprocess.call('sudo mount -t vfat -o uid=pi,iocharset=utf8,loop,offset=1048576 /home/pi/g_mass_storage.img /mnt/g_mass_storage/' ,shell=True)
 try:
   midi = subprocess.check_output('ls -v /mnt/g_mass_storage/midi/*.mid' ,shell=True).decode('utf-8').strip().replace('/mnt/g_mass_storage/midi/', '').replace('.mid', '').split('\n')
   playflag = [0]*len(midi)
