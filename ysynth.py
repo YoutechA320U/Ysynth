@@ -384,6 +384,7 @@ while True:
           if GPIO.input(4) == 0:
              if otg_mode[0] == 'g_mass_storage':
                 subprocess.call('sudo modprobe -r g_mass_storage', shell=True)
+                subprocess.call('sudo umount /mnt/g_mass_storage/', shell=True)
                 so1602.command(OLED_2ndline)
                 so1602.write("Ysynth_Restart")
                 subprocess.call('sudo modprobe g_midi', shell=True)
