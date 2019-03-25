@@ -62,13 +62,13 @@ RaspberryPi Zeroで動作するハードウェアシンセサイザーです。�
 
     sudo apt-get install -y git
     
-    git clone https://github.com/YoutechA320U/Ysynth.git
+    git clone --recursive --depth 1 https://github.com/YoutechA320U/Ysynth.git
 
 2. 何らかのエディタで`/boot/cmdline.txt`の末尾に改行せずに`modules-load=dwc2,g_midi`を追加します。
 
 3. `cd /home/pi/Ysynth`でカレントディレクトリを`Ysynth`に移動します。
 
-4. `sudo python setup.py`でセットアップスクリプトを実行します。完了すると自動的に再起動します。
+4. `sudo python3 setup.py`でセットアップスクリプトを実行します。完了すると自動的に再起動します。
 
 5. 有機ELディスプレイにメッセージが表示されたら完了です。
 
