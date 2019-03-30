@@ -239,49 +239,41 @@ while True:
            if mode == 0:
               so1602.command(OLED_2ndline)
               so1602.write('インストゥルメント:'+str("{0:03d}".format(midiPROG[midiCH] + 1))+"     ")
-       for x in range(16):
         if message[0] == 176+x and message[1] ==7:
            midiCC7[x] = message[2]
            if mode == 1:
               so1602.command(OLED_1stline)
               so1602.write('ボリューム:'+str("{0:03d}".format(midiCC7[midiCH]))+"     ")
-       for x in range(16):
         if message[0] == 176+x and message[1] ==11:
            midiCC11[x] = message[2]
            if mode == 1:
               so1602.command(OLED_2ndline)
               so1602.write('エクスプレッション:'+str("{0:03d}".format(midiCC11[midiCH]))+"     ")
-       for x in range(16):
         if message[0] == 176+x and message[1] ==10:
            midiCC10[x] = message[2]
            if mode == 2:
               so1602.command(OLED_1stline)
               so1602.write('パン:'+str("{0:03d}".format(midiCC10[midiCH]-64))+"     ")
-       for x in range(16):
         if message[0] == 176+x and message[1] ==1:
            midiCC1[x] = message[2]
            if mode == 2:
               so1602.command(OLED_2ndline)
               so1602.write('モジュレーション:'+str("{0:03d}".format(midiCC1[midiCH]))+"     ")
-       for x in range(16):
         if message[0] == 176+x and message[1] ==91:
            midiCC91[x] = message[2]
            if mode == 3:
               so1602.command(OLED_1stline)
               so1602.write('リバーブ:'+str("{0:03d}".format(midiCC91[midiCH]))+"     ")
-       for x in range(16):
         if message[0] == 176+x and message[1] ==93:
            midiCC93[x] = message[2]
            if mode == 3:
               so1602.command(OLED_2ndline)
               so1602.write('コーラス:'+str("{0:03d}".format(midiCC93[midiCH]))+"     ")
-       for x in range(16):
         if message[0] == 176+x and message[1] ==94:
            midiCC94[x] = message[2]
            if mode == 4:
               so1602.command(OLED_1stline)
               so1602.write('ディレイ:'+str("{0:03d}".format(midiCC94[midiCH]))+"     ")
-       for x in range(16):
         if message[0] == 0xe0+x :
            pb1[x] = message[1]
            pb2[x] = message[2]
