@@ -7,7 +7,7 @@ import sys
 i2c = smbus.SMBus(1)
 
 CHAR_TABLE = {
-    u'△': [0x00],
+    u'▶': [0x00],
     u'♪': [0x01],    
     u'†': [0x11],
     u'§': [0x12],
