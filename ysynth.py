@@ -12,7 +12,7 @@ display_Off=0x08
 display_on_No_Cursor=0x0c
 OLED_1stline=0x80
 OLED_2ndline=0xa0
-so1602.setaddr(0x3c)
+so1602.setaddr(0x3c) #so1602のI2Cアドレス
 so1602.command(clear)
 so1602.command(0x02)
 so1602.command(display_On)
@@ -49,6 +49,7 @@ pb1 = [0]*16
 pb2 = [0x40]*16
 playflag = [0]
 sf2used = [0]
+pbcounter =[0]*16
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(input_A, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -121,10 +122,9 @@ def rotaryDeal_4():
 midicounter = 0
 sf2counter = 0
 so1602.command(OLED_1stline)
-so1602.write("    Hellow!")
-time.sleep(1.0)
+so1602.write("     Ysynth")
 so1602.command(OLED_2ndline)
-so1602.write("  Ysynth_V2.2")
+so1602.write("     Rev3.0")
 time.sleep(2.0)
 so1602.command(clear)
 so1602.command(OLED_1stline)
@@ -150,15 +150,21 @@ try:
 except:
  cfg = [ ]
 if (sf2 != cfg) and (sf2[0] != "sf2_None"):
+ so1602.command(clear)
+ so1602.command(OLED_1stline)
+ so1602.write("making")
+ so1602.command(OLED_2ndline)
+ so1602.write("sf2_config")
  list_difference = list(set(cfg) - set(sf2))
+ list_difference = [l.replace(' ', '\ ') for l in list_difference]
  for x in range(len(list_difference)):
   print(list_difference[x])
   subprocess.call('sudo rm /home/pi/timidity_cfg/{}.cfg' .format(list_difference[x])  ,shell=True)
  list_difference = list(set(sf2) - set(cfg))
+ list_difference = [l.replace(' ', '\ ') for l in list_difference]
  for x in range(len(list_difference)):
-  subprocess.call('sudo /home/pi/Ysynth/cfgforsf -C /mnt/g_mass_storage/sf2/{}.sf2 /home/pi/timidity_cfg/tmp' .format(list_difference[x])  ,shell=True)
-  subprocess.call("sed -e 's/(null)//' -e 's/^[ ]*//g' -e '/(null)#/d' -e '/^$/d' -e /^#/d /home/pi/timidity_cfg/tmp > /home/pi/timidity_cfg/{}.cfg" .format(list_difference[x]) ,shell=True)
- subprocess.call('rm /home/pi/timidity_cfg/tmp' ,shell=True)
+  so1602.write(".")
+  subprocess.call("sudo /home/pi/Ysynth/cfgforsf -C /mnt/g_mass_storage/sf2/{sf2name}.sf2 | sed -e 's/(null)//' -e 's/^[ ]*//g' -e '/(null)#/d'  -e /^#/d | grep -C 1 % | sed -e '/--/d' -e /^$/d > /home/pi/timidity_cfg/{sf2name}.cfg" .format(sf2name=list_difference[x])  ,shell=True)
  subprocess.call('sudo chown -R pi:pi /home/pi/timidity_cfg' ,shell=True)
 if sf2[0] == "sf2_None":
    subprocess.call('sudo rm /home/pi/timidity_cfg/*.cfg' ,shell=True)
@@ -178,13 +184,13 @@ so1602.command(clear)
 subprocess.call('amixer cset numid=1 90% > /dev/null', shell=True)
 ##初期設定ここまで##
 if rock_flag == 0:
-   so1602.write('チャンネル:'+str("{0:02}".format(midiCH + 1))+"     ")
+   so1602.write('CH:'+str("{0:02}".format(midiCH + 1))+"     ")
    so1602.command(OLED_2ndline)
-   so1602.write('インストゥルメント:'+str("{0:03d}".format(midiPROG[midiCH] + 1))+"     ")
+   so1602.write('PC:'+str("{0:03d}".format(midiPROG[midiCH] + 1))+"     ")
    subprocess.call("sh /home/pi/Ysynth/midiconnect.sh" , shell = True)
 if rock_flag == 1:
    so1602.command(OLED_1stline)
-   so1602.write("サウンドフォント:     ")
+   so1602.write("SF2:     ")
    so1602.command(OLED_2ndline)
    so1602.write(str("{0:02}" .format(sf2counter + 1))+":"+sf2[sf2counter])
 timer = time.time()
@@ -210,27 +216,27 @@ while True:
            pb2 = [0x40]*16
            if mode == 0:
               so1602.command(OLED_2ndline)
-              so1602.write('インストゥルメント:'+str("{0:03d}".format(midiPROG[midiCH] + 1))+"     ")
+              so1602.write('PC:'+str("{0:03d}".format(midiPROG[midiCH] + 1))+"     ")
            if mode == 1:
               so1602.command(OLED_1stline)
-              so1602.write('ボリューム:'+str("{0:03d}".format(midiCC7[midiCH]))+"     ")
+              so1602.write('Vol:'+str("{0:03d}".format(midiCC7[midiCH]))+"     ")
               so1602.command(OLED_2ndline)
-              so1602.write('エクスプレッション:'+str("{0:03d}".format(midiCC11[midiCH]))+"     ")
+              so1602.write('Exp:'+str("{0:03d}".format(midiCC11[midiCH]))+"     ")
            if mode == 2:
               so1602.command(OLED_1stline)
-              so1602.write('パン:'+str("{0:03d}".format(midiCC10[midiCH]-64))+"     ")
+              so1602.write('Pan:'+str("{0:03d}".format(midiCC10[midiCH]-64))+"     ")
               so1602.command(OLED_2ndline)
-              so1602.write('モジュレーション:'+str("{0:03d}".format(midiCC1[midiCH]))+"     ")
+              so1602.write('Mod:'+str("{0:03d}".format(midiCC1[midiCH]))+"     ")
            if mode == 3:
               so1602.command(OLED_1stline)
-              so1602.write('リバーブ:'+str("{0:03d}".format(midiCC91[midiCH]))+"     ")
+              so1602.write('Rev:'+str("{0:03d}".format(midiCC91[midiCH]))+"     ")
               so1602.command(OLED_2ndline)
-              so1602.write('コーラス:'+str("{0:03d}".format(midiCC93[midiCH]))+"     ")
+              so1602.write('Cho:'+str("{0:03d}".format(midiCC93[midiCH]))+"     ")
            if mode == 4:
               so1602.command(OLED_1stline)
-              so1602.write('ディレイ:'+str("{0:03d}".format(midiCC94[midiCH]))+"     ")
+              so1602.write('Dly:'+str("{0:03d}".format(midiCC94[midiCH]))+"     ")
               so1602.command(OLED_2ndline)
-              so1602.write('ピッチベンド:'+str("{0:04d}".format(0x80*pb2[midiCH]+pb1[midiCH]-8192))+"     ")
+              so1602.write('P.Bend:'+str("{0:04d}".format(0x80*pb2[midiCH]+pb1[midiCH]-8192))+"     ")
        except :
         continue
        for x in range(16):
@@ -238,48 +244,48 @@ while True:
            midiPROG[x] = message[1]
            if mode == 0:
               so1602.command(OLED_2ndline)
-              so1602.write('インストゥルメント:'+str("{0:03d}".format(midiPROG[midiCH] + 1))+"     ")
+              so1602.write('PC:'+str("{0:03d}".format(midiPROG[midiCH] + 1))+"     ")
         if message[0] == 176+x and message[1] ==7:
            midiCC7[x] = message[2]
            if mode == 1:
               so1602.command(OLED_1stline)
-              so1602.write('ボリューム:'+str("{0:03d}".format(midiCC7[midiCH]))+"     ")
+              so1602.write('Vol:'+str("{0:03d}".format(midiCC7[midiCH]))+"     ")
         if message[0] == 176+x and message[1] ==11:
            midiCC11[x] = message[2]
            if mode == 1:
               so1602.command(OLED_2ndline)
-              so1602.write('エクスプレッション:'+str("{0:03d}".format(midiCC11[midiCH]))+"     ")
+              so1602.write('Exp:'+str("{0:03d}".format(midiCC11[midiCH]))+"     ")
         if message[0] == 176+x and message[1] ==10:
            midiCC10[x] = message[2]
            if mode == 2:
               so1602.command(OLED_1stline)
-              so1602.write('パン:'+str("{0:03d}".format(midiCC10[midiCH]-64))+"     ")
+              so1602.write('Pan:'+str("{0:03d}".format(midiCC10[midiCH]-64))+"     ")
         if message[0] == 176+x and message[1] ==1:
            midiCC1[x] = message[2]
            if mode == 2:
               so1602.command(OLED_2ndline)
-              so1602.write('モジュレーション:'+str("{0:03d}".format(midiCC1[midiCH]))+"     ")
+              so1602.write('Mod:'+str("{0:03d}".format(midiCC1[midiCH]))+"     ")
         if message[0] == 176+x and message[1] ==91:
            midiCC91[x] = message[2]
            if mode == 3:
               so1602.command(OLED_1stline)
-              so1602.write('リバーブ:'+str("{0:03d}".format(midiCC91[midiCH]))+"     ")
+              so1602.write('Rev:'+str("{0:03d}".format(midiCC91[midiCH]))+"     ")
         if message[0] == 176+x and message[1] ==93:
            midiCC93[x] = message[2]
            if mode == 3:
               so1602.command(OLED_2ndline)
-              so1602.write('コーラス:'+str("{0:03d}".format(midiCC93[midiCH]))+"     ")
+              so1602.write('Cho:'+str("{0:03d}".format(midiCC93[midiCH]))+"     ")
         if message[0] == 176+x and message[1] ==94:
            midiCC94[x] = message[2]
            if mode == 4:
               so1602.command(OLED_1stline)
-              so1602.write('ディレイ:'+str("{0:03d}".format(midiCC94[midiCH]))+"     ")
+              so1602.write('Dly:'+str("{0:03d}".format(midiCC94[midiCH]))+"     ")
         if message[0] == 0xe0+x :
            pb1[x] = message[1]
            pb2[x] = message[2]
            if mode == 4:
               so1602.command(OLED_2ndline)
-              so1602.write('ピッチベンド:'+str("{0:04d}".format(0x80*pb2[midiCH]+pb1[midiCH]-8192))+"     ")
+              so1602.write('P.Bend:'+str("{0:04d}".format(0x80*pb2[midiCH]+pb1[midiCH]-8192))+"     ")
 ##MIDI入力をディスプレイに反映する処理ここまで
 ##押しボタンスイッチの処理
     try:
@@ -291,14 +297,14 @@ while True:
     except:
      pass
     if GPIO.input(input_A) == 0:
-       if 0 <=mode <=4 and rock_flag == 0:
+       if 0 <=mode <=3 and rock_flag == 0:
           allnoteoff()
        if mode == 5 and rock_flag == 0 and midi[0] != "midi_None":
           if GPIO.input(input_A) == 0 and playflag[midicounter] == 0:
              subprocess.call(['sudo', 'killall', 'aplaymidi'])
              allnoteoff()
              so1602.command(0x80+0x05)
-             so1602.write("△")
+             so1602.write("▶")
              midi = [s.replace(' ', '\ ') for s in midi]
              aplaymidi = subprocess.Popen('aplaymidi -p 14:0 /mnt/g_mass_storage/midi/{}.mid' .format(midi[midicounter]), shell = True)
              midi = [s.replace('\ ', ' ') for s in midi]
@@ -316,19 +322,24 @@ while True:
              while (GPIO.input(4) == 0):
                 pass      
        if (mode == 6 or rock_flag == 1) :
+          so1602.command(OLED_1stline)
+          so1602.command(0x80+0x04)
+          so1602.write("Wait..")
           subprocess.call(['sudo', 'killall', 'aplaymidi'])
           subprocess.call(['sudo', 'killall', 'timidity'])
           allnoteoff()
           so1602.command(OLED_1stline)
-          so1602.command(0x80+0x0a)
+          so1602.command(0x80+0x04)
           sf2 = [s.replace(' ', '\ ') for s in sf2]
           subprocess.Popen('timidity -c /home/pi/timidity_cfg/{}.cfg' .format(sf2[sf2counter]), shell = True)
           sf2 = [s.replace('\ ', ' ') for s in sf2]
           time.sleep(1.5)
-          subprocess.call("sh /home/pi/Ysynth/midiconnect.sh" , shell = True)
+          subprocess.call("sh /home/pi/Ysynth/midiconnect01.sh" , shell = True)
+          time.sleep(0.5)
           while (GPIO.input(4) == 0):
              pass
-          so1602.write("OK")
+          so1602.write("OK    ")
+          subprocess.call("sh /home/pi/Ysynth/midiconnect02.sh" , shell = True)
           time.sleep(2)
           sf2used = [0]*len(sf2)
           sf2used[sf2counter] = 1
@@ -347,9 +358,9 @@ while True:
           rock_flag = 0
           so1602.command(clear)
           so1602.command(OLED_1stline)
-          so1602.write('チャンネル:'+str("{0:02}".format(midiCH + 1))+"     ")
+          so1602.write('CH:'+str("{0:02}".format(midiCH + 1))+"     ")
           so1602.command(OLED_2ndline)
-          so1602.write('インストゥルメント:'+str("{0:03d}".format(midiPROG[midiCH] + 1))+"     ")
+          so1602.write('PC:'+str("{0:03d}".format(midiPROG[midiCH] + 1))+"     ")
        if mode == 7 and rock_flag == 0:
           so1602.command(OLED_2ndline)
           so1602.write("マタネ!")
@@ -391,7 +402,7 @@ while True:
     rotaryDeal_2()
     rotaryDeal_3()
     rotaryDeal_4()
-###ロータリーエンコーダ4の処理。ボリューム、モード関係なしで変化。
+###ロータリーエンコーダ4の処理。Vol、モード関係なしで変化。
     if (prevolume != volume) and rock_flag == 0:
       if volume > 100:
          volume = 0
@@ -399,10 +410,10 @@ while True:
       if volume < 0:
          volume = 100
          #volume = 0
-      subprocess.call('amixer cset numid=1 {}% > /dev/null' .format(volume), shell = True)
+      subprocess.Popen(['amixer', 'cset', 'numid=1', '{}%'.format(volume)])
       if 7<=mode <= 8: #特定のモードでOLEDに表示
          so1602.command(OLED_2ndline)
-         so1602.write("システムボリューム:"+str("{0:02}".format(volume))+"   ")
+         so1602.write("SystemVol:"+str("{0:02}".format(volume))+"   ")
 ###ロータリーエンコーダ4の処理ここまで
 ###ロータリーエンコーダ3の処理。右から2番目でモードチェンジ、モード関係なしで変化。
     if (premode != mode) and rock_flag == 0:
@@ -413,35 +424,35 @@ while True:
          mode = 8
       if mode == 0 and rock_flag == 0:
          so1602.command(OLED_1stline)
-         so1602.write('チャンネル:'+str("{0:02}".format(midiCH + 1))+"     ")
+         so1602.write('CH:'+str("{0:02}".format(midiCH + 1))+"     ")
          so1602.command(OLED_2ndline)
-         so1602.write('インストゥルメント:'+str("{0:03d}".format(midiPROG[midiCH] + 1))+"     ")
+         so1602.write('PC:'+str("{0:03d}".format(midiPROG[midiCH] + 1))+"     ")
       if mode == 1 and rock_flag == 0: 
          so1602.command(OLED_1stline)
-         so1602.write('ボリューム:'+str("{0:03d}".format(midiCC7[midiCH]))+"     ")
+         so1602.write('Vol:'+str("{0:03d}".format(midiCC7[midiCH]))+"     ")
          so1602.command(OLED_2ndline)
-         so1602.write('エクスプレッション:'+str("{0:03d}".format(midiCC11[midiCH]))+"     ")
+         so1602.write('Exp:'+str("{0:03d}".format(midiCC11[midiCH]))+"     ")
       if mode == 2 and rock_flag == 0:
          so1602.command(OLED_1stline)
-         so1602.write('パン:'+str("{0:03d}".format(midiCC10[midiCH]-64))+"     ")
+         so1602.write('Pan:'+str("{0:03d}".format(midiCC10[midiCH]-64))+"     ")
          so1602.command(OLED_2ndline)
-         so1602.write('モジュレーション:'+str("{0:03d}".format(midiCC1[midiCH]))+"  ")
+         so1602.write('Mod:'+str("{0:03d}".format(midiCC1[midiCH]))+"  ")
       if mode == 3 and rock_flag == 0:
          so1602.command(OLED_1stline)
-         so1602.write('リバーブ:'+str("{0:03d}".format(midiCC91[midiCH]))+"     ")
+         so1602.write('Rev:'+str("{0:03d}".format(midiCC91[midiCH]))+"     ")
          so1602.command(OLED_2ndline)
-         so1602.write('コーラス:'+str("{0:03d}".format(midiCC93[midiCH]))+"     ")
+         so1602.write('Cho:'+str("{0:03d}".format(midiCC93[midiCH]))+"     ")
       if mode == 4 and rock_flag == 0:
          so1602.command(OLED_1stline)
-         so1602.write('ディレイ:'+str("{0:03d}".format(midiCC94[midiCH]))+"     ")
+         so1602.write('Dly:'+str("{0:03d}".format(midiCC94[midiCH]))+"     ")
          so1602.command(OLED_2ndline)
-         so1602.write('ピッチベンド:'+str("{0:04d}".format(0x80*pb2[midiCH]+pb1[midiCH]-8192))+"     ")
+         so1602.write('P.Bend:'+str("{0:04d}".format(0x80*pb2[midiCH]+pb1[midiCH]-8192))+"     ")
       if mode == 5 and rock_flag == 0:
          so1602.command(OLED_1stline)
          so1602.write("MIDI:     ")
          if playflag[midicounter] == 1 and midi[0] != "midi_None":
             so1602.command(0x80+0x05)
-            so1602.write("△")
+            so1602.write("▶")
          if playflag[midicounter] == 0 and midi[0] != "midi_None":
             so1602.command(0x80+0x05)
             so1602.write(" ")
@@ -449,12 +460,12 @@ while True:
          so1602.write(str("{0:02}" .format(midicounter + 1))+":"+midi[midicounter])
       if mode == 6 or rock_flag == 1:
          so1602.command(OLED_1stline)
-         so1602.write("サウンドフォント:     ")
+         so1602.write("SF2:     ")
          if sf2used[sf2counter] == 1 and sf2[0] != "sf2_None":
-            so1602.command(0x80+0x0a)
+            so1602.command(0x80+0x04)
             so1602.write("♪")
          if sf2used[sf2counter] == 0 and sf2[0] != "sf2_None":
-            so1602.command(0x80+0x0a)
+            so1602.command(0x80+0x04)
             so1602.write(" ")
          so1602.command(OLED_2ndline)
          so1602.write(str("{0:02}" .format(sf2counter + 1))+":"+sf2[sf2counter])
@@ -482,7 +493,7 @@ while True:
             midiPROG[midiCH] = 127
          midiout.send_message([0xc0+midiCH, midiPROG[midiCH]])
          so1602.command(OLED_2ndline)
-         so1602.write('インストゥルメント:'+str("{0:03d}".format(midiPROG[midiCH] + 1))+"     ")
+         so1602.write('PC:'+str("{0:03d}".format(midiPROG[midiCH] + 1))+"     ")
       if mode == 1 and rock_flag == 0:
          if CC2 - preCC2 == 1 :
             midiCC11[midiCH] += 1
@@ -494,7 +505,7 @@ while True:
             midiCC11[midiCH] = 127
          midiout.send_message([0xb0+midiCH, 11, midiCC11[midiCH]])
          so1602.command(OLED_2ndline)
-         so1602.write('エクスプレッション:'+str("{0:03d}".format(midiCC11[midiCH]))+"  ")
+         so1602.write('Exp:'+str("{0:03d}".format(midiCC11[midiCH]))+"  ")
       if mode == 2 and rock_flag == 0:
          if CC2 - preCC2 == 1 :
             midiCC1[midiCH] += 1
@@ -506,7 +517,7 @@ while True:
             midiCC1[midiCH] = 127
          midiout.send_message([0xb0+midiCH, 1, midiCC1[midiCH]])
          so1602.command(OLED_2ndline)
-         so1602.write('モジュレーション:'+str("{0:03d}".format(midiCC1[midiCH]))+"  ")
+         so1602.write('Mod:'+str("{0:03d}".format(midiCC1[midiCH]))+"  ")
       if mode == 3 and rock_flag == 0:
          if CC2 - preCC2 == 1 :
             midiCC93[midiCH] += 1
@@ -518,30 +529,127 @@ while True:
             midiCC93[midiCH] = 127
          midiout.send_message([0xb0+midiCH, 93, midiCC93[midiCH]])
          so1602.command(OLED_2ndline)
-         so1602.write('コーラス:'+str("{0:03d}".format(midiCC93[midiCH]))+"     ")
+         so1602.write('Cho:'+str("{0:03d}".format(midiCC93[midiCH]))+"     ")
 
       if mode == 4 and rock_flag == 0:
          if CC2 - preCC2 == 1 :
-            for x in range(1):
-             pb1[midiCH] += 1
-             if pb1[midiCH] > 0x7f:
-                pb1[midiCH] = 0
-                pb2[midiCH] += 1
-                if pb2[midiCH] > 0x7f:
-                   pb2[midiCH] = 0
+            if pbcounter[midiCH] == 12:
+               pbcounter[midiCH] = -12
+            else:
+               pbcounter[midiCH] += 1            
+            #for x in range(1):
+             #pb1[midiCH] += 1
+             #if pb1[midiCH] > 0x7f:
+                #pb1[midiCH] = 0
+                #pb2[midiCH] += 1
+                #if pb2[midiCH] > 0x7f:
+                   #pb2[midiCH] = 0
          if CC2 - preCC2 == -1 :
-            for x in range(1):
-             pb1[midiCH] -= 1
-             if pb1[midiCH] < 0:
-                pb1[midiCH] = 0x7f
-                if pb2[midiCH] == 0:
-                   pb1[midiCH] = 0x7f
-                   pb2[midiCH] = 0x7f
-                else:
-                   pb2[midiCH] -= 1
-         midiout.send_message([0xe0+midiCH, pb1[midiCH], pb2[midiCH]])
+            if pbcounter[midiCH] == -12:
+               pbcounter[midiCH] = 12
+            else:
+               pbcounter[midiCH] -= 1      
+            #for x in range(1):
+             #pb1[midiCH] -= 1
+             #if pb1[midiCH] < 0:
+                #pb1[midiCH] = 0x7f
+                #if pb2[midiCH] == 0:
+                   #pb1[midiCH] = 0x7f
+                   #pb2[midiCH] = 0x7f
+                #else:
+                   #pb2[midiCH] -= 1
+         if pbcounter[midiCH] == -12:
+            pb1[midiCH] = int(0x00)
+            pb2[midiCH] = int(0x00)
+         if pbcounter[midiCH] == -11:
+            pb1[midiCH] = int(0x2b)
+            pb2[midiCH] = int(0x05)
+         if pbcounter[midiCH] == -10:
+            pb1[midiCH] = int(0x55)
+            pb2[midiCH] = int(0x0a)
+         if pbcounter[midiCH] == -9:
+            pb1[midiCH] = int(0x00)
+            pb2[midiCH] = int(0x10)
+         if pbcounter[midiCH] == -8:
+            pb1[midiCH] = int(0x2b)
+            pb2[midiCH] = int(0x15)
+         if pbcounter[midiCH] == -7:
+            pb1[midiCH] = int(0x55)
+            pb2[midiCH] = int(0x1a)
+         if pbcounter[midiCH] == -6:
+            pb1[midiCH] = int(0x00)
+            pb2[midiCH] = int(0x20)   
+         if pbcounter[midiCH] == -5:
+            pb1[midiCH] = int(0x2b)
+            pb2[midiCH] = int(0x25) 
+         if pbcounter[midiCH] == -4:
+            pb1[midiCH] = int(0x55)
+            pb2[midiCH] = int(0x2a)
+         if pbcounter[midiCH] == -3:
+            pb1[midiCH] = int(0x00)
+            pb2[midiCH] = int(0x30)
+         if pbcounter[midiCH] == -2:
+            pb1[midiCH] = int(0x2b)
+            pb2[midiCH] = int(0x35)   
+         if pbcounter[midiCH] == -1:
+            pb1[midiCH] = int(0x55)
+            pb2[midiCH] = int(0x3a) 
+         if pbcounter[midiCH] == 0:
+            pb1[midiCH] = int(0x00)
+            pb2[midiCH] = int(0x40)
+         if pbcounter[midiCH] == 1:
+            pb1[midiCH] = int(0x2b)
+            pb2[midiCH] = int(0x45)
+         if pbcounter[midiCH] == 2:
+            pb1[midiCH] = int(0x55)
+            pb2[midiCH] = int(0x4a)   
+         if pbcounter[midiCH] == 3:
+            pb1[midiCH] = int(0x00)
+            pb2[midiCH] = int(0x50)
+         if pbcounter[midiCH] == 4:
+            pb1[midiCH] = int(0x2b)
+            pb2[midiCH] = int(0x55)
+         if pbcounter[midiCH] == 5:
+            pb1[midiCH] = int(0x55)
+            pb2[midiCH] = int(0x5a)
+         if pbcounter[midiCH] == 6:
+            pb1[midiCH] = int(0x00)
+            pb2[midiCH] = int(0x60)  
+         if pbcounter[midiCH] == 7:
+            pb1[midiCH] = int(0x2b)
+            pb2[midiCH] = int(0x65)
+         if pbcounter[midiCH] == 8:
+            pb1[midiCH] = int(0x55)
+            pb2[midiCH] = int(0x6a)
+         if pbcounter[midiCH] == 9:
+            pb1[midiCH] = int(0x00)
+            pb2[midiCH] = int(0x70)
+         if pbcounter[midiCH] == 10:
+            pb1[midiCH] = int(0x2b)
+            pb2[midiCH] = int(0x75)  
+         if pbcounter[midiCH] == 11:
+            pb1[midiCH] = int(0x55)
+            pb2[midiCH] = int(0x7a)
+         if pbcounter[midiCH] == 12:
+            pb1[midiCH] = int(0x7f)
+            pb2[midiCH] = int(0x7f) 
+         if GPIO.input(input_A) == 0:
+            pb1 = [pb1[midiCH]]*16
+            pb2 = [pb2[midiCH]]*16
+            for x in range(16):
+                midiout.send_message([0xb0+x, 0x65, 0x00])
+                midiout.send_message([0xb0+x, 0x64, 0x00])
+                midiout.send_message([0xb0+x, 0x06, 0x0c])
+                midiout.send_message([0xb0+x, 0x26, 0x00])
+                midiout.send_message([0xe0+x, pb1[x], pb2[x]])
+         else:
+            midiout.send_message([0xb0+midiCH, 0x65, 0x00])
+            midiout.send_message([0xb0+midiCH, 0x64, 0x00])
+            midiout.send_message([0xb0+midiCH, 0x06, 0x0c])
+            midiout.send_message([0xb0+midiCH, 0x26, 0x00])
+            midiout.send_message([0xe0+midiCH, pb1[midiCH], pb2[midiCH]])
          so1602.command(OLED_2ndline)
-         so1602.write('ピッチベンド:'+str("{0:04d}".format(0x80*pb2[midiCH]+pb1[midiCH]-8192))+"     ")
+         so1602.write('P.Bend:'+str("{0:04d}".format(0x80*pb2[midiCH]+pb1[midiCH]-8192))+"     ")
       if mode == 5 and rock_flag == 0:
          if CC2 - preCC2 == 1 :
             midicounter += 1
@@ -554,7 +662,7 @@ while True:
          so1602.command(OLED_1stline)
          if playflag[midicounter] == 1 and midi[0] != "midi_None":
             so1602.command(0x80+0x05)
-            so1602.write("△")
+            so1602.write("▶")
          if playflag[midicounter] == 0 and midi[0] != "midi_None":
             so1602.command(0x80+0x05)
             so1602.write(" ")
@@ -573,10 +681,10 @@ while True:
             sf2counter =  len(sf2) -1
          so1602.command(OLED_1stline)
          if sf2used[sf2counter] == 1 and sf2[0] != "sf2_None":
-            so1602.command(0x80+0x0a)
+            so1602.command(0x80+0x04)
             so1602.write("♪")
          if sf2used[sf2counter] == 0 and sf2[0] != "sf2_None":
-            so1602.command(0x80+0x0a)
+            so1602.command(0x80+0x04)
             so1602.write(" ")
          so1602.command(OLED_2ndline)
          so1602.write("                ")
@@ -595,9 +703,9 @@ while True:
          if midiCH < 0:
             midiCH = 15
          so1602.command(OLED_1stline)
-         so1602.write('チャンネル:'+str("{0:02}".format(midiCH + 1))+"     ")
+         so1602.write('CH:'+str("{0:02}".format(midiCH + 1))+"     ")
          so1602.command(OLED_2ndline)
-         so1602.write('インストゥルメント:'+str("{0:03d}".format(midiPROG[midiCH] + 1))+"     ")
+         so1602.write('PC:'+str("{0:03d}".format(midiPROG[midiCH] + 1))+"     ")
       if mode == 1 and rock_flag == 0:
          if CC1 - preCC1 == 1 :
             midiCC7[midiCH] += 1
@@ -609,7 +717,7 @@ while True:
             midiCC7[midiCH] = 127
          midiout.send_message([0xb0+midiCH, 7, midiCC7[midiCH]])
          so1602.command(OLED_1stline)
-         so1602.write('ボリューム:'+str("{0:03d}".format(midiCC7[midiCH]))+"     ")
+         so1602.write('Vol:'+str("{0:03d}".format(midiCC7[midiCH]))+"     ")
       if mode == 2 and rock_flag == 0:
          if CC1 - preCC1 == 1 :
             midiCC10[midiCH] += 1
@@ -621,7 +729,7 @@ while True:
             midiCC10[midiCH] = 127
          midiout.send_message([0xb0+midiCH, 10, midiCC10[midiCH]])
          so1602.command(OLED_1stline)
-         so1602.write('パン:'+str("{0:03d}".format(midiCC10[midiCH]-64))+"     ")
+         so1602.write('Pan:'+str("{0:03d}".format(midiCC10[midiCH]-64))+"     ")
       if mode == 3 and rock_flag == 0:
          if CC1 - preCC1 == 1 :
             midiCC91[midiCH] += 1
@@ -633,7 +741,7 @@ while True:
             midiCC91[midiCH] = 127
          midiout.send_message([0xb0+midiCH, 91, midiCC91[midiCH]])
          so1602.command(OLED_1stline)
-         so1602.write('リバーブ:'+str("{0:03d}".format(midiCC91[midiCH]))+"    ")
+         so1602.write('Rev:'+str("{0:03d}".format(midiCC91[midiCH]))+"    ")
       if mode == 4 and rock_flag == 0:
          if CC1 - preCC1 == 1 :
             midiCC94[midiCH] += 1
@@ -645,5 +753,5 @@ while True:
             midiCC94[midiCH] = 127
          midiout.send_message([0xb0+midiCH, 94, midiCC94[midiCH]])
          so1602.command(OLED_1stline)
-         so1602.write('ディレイ:'+str("{0:03d}".format(midiCC94[midiCH]))+"     ")
+         so1602.write('Dly:'+str("{0:03d}".format(midiCC94[midiCH]))+"     ")
 ###ロータリーエンコーダ1の処理ここまで
