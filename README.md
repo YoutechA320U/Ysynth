@@ -1,16 +1,16 @@
-## Ysynth
+## ysynth3
 
 RaspberryPiとTimidity++を核にしたハードウェアシンセサイザーです。GM/GS/XG/エクスクルーシブのメッセージが使えます。
 
 ## ライセンス
-Ysynthは複数のソフトウェアで構成されています。他のソフトウェアのライセンスはそのソフトウェアの元々のライセンスに準じます。Ysynthのソースコードそのものは[MITライセンス](https://github.com/YoutechA320U/Ysynth/blob/master/LICENSE)となっています。
+ysynth3は複数のソフトウェアで構成されています。他のソフトウェアのライセンスはそのソフトウェアの元々のライセンスに準じます。ysynth3のソースコードそのものは[MITライセンス](https://github.com/YoutechA320U/ysynth3/blob/master/LICENSE)となっています。
 
 ## 概要
 RaspberryPi Zeroで動作するハードウェアシンセサイザーです。チャンネルごとにデータを送信、OLEDに表示するMIDIコントローラとしての機能と、チャンネルごとにデータを受信、OLEDに表示し、任意のサウンドフォント(.sf2)を鳴らせるMIDI音源としての機能、任意のMIDIファイルを自身や外部音源で演奏できるMIDIシーケンサーとしての機能を持ちます。
 
 ※作例です。このリポジトリのソースコードにMIDIキーボードに関係するコードは含まれていません。
 
-![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/ysynth_hard.jpg "作例")
+![SS](https://github.com/YoutechA320U/ysynth3/blob/master/SS/ysynth_hard.jpg "作例")
 
 ## スペック
     *GM/GS/XG/エクスクルーシブメッセージ対応*
@@ -34,7 +34,7 @@ RaspberryPi Zeroで動作するハードウェアシンセサイザーです。�
     Python : ver2.7 and ver3.5
     
 ## 回路図
-![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/Ysynth.png "回路図")
+![SS](https://github.com/YoutechA320U/ysynth3/blob/master/SS/ysynth3.png "回路図")
 
 ## 必要な部品
 ※基板やピンソケット、つまみは除く
@@ -62,11 +62,11 @@ RaspberryPi Zeroで動作するハードウェアシンセサイザーです。�
 
     sudo apt-get install -y git
     
-    git clone --recursive --depth 1 https://github.com/YoutechA320U/Ysynth.git
+    git clone --recursive --depth 1 https://github.com/YoutechA320U/ysynth3.git
 
 2. 何らかのエディタで`/boot/cmdline.txt`の末尾に改行せずに`modules-load=dwc2,g_midi`を追加します。
 
-3. `cd /home/pi/Ysynth`でカレントディレクトリを`Ysynth`に移動します。
+3. `cd /home/pi/ysynth3`でカレントディレクトリを`ysynth3`に移動します。
 
 4. `sudo python3 setup.py`でセットアップスクリプトを実行します。完了すると自動的に再起動します。
 
@@ -86,38 +86,38 @@ RaspberryPi Zeroで動作するハードウェアシンセサイザーです。�
 
 ※サウンドフォントが全くない場合は自動的に3に進みます。
 
-![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/oled1.jpg "OLED1")
+![SS](https://github.com/YoutechA320U/ysynth3/blob/master/SS/oled1.jpg "OLED1")
 
 2. ロータリーエンコーダ2でサウンドフォントを選択して押しボタンスイッチで決定します。
 
 3. チャンネルとインストゥルメント(プログラムチェンジ)が表示されたら操作可能になります。
 
-![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/oled2.jpg "OLED2")
+![SS](https://github.com/YoutechA320U/ysynth3/blob/master/SS/oled2.jpg "OLED2")
 
 4. ロータリーエンコーダ3でモードを切り替えて上段に`OTG_Mode_Change?`と表示されている時に押しボタンスイッチを押すと下段に`mass_storage`と表示されます。この間は一切の機能が停止し、OTG機能で他のパソコンなどとUSB接続すると4GBのUSBメモリーとして認識されます。
 
-![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/oled4.jpg "OLED4")
+![SS](https://github.com/YoutechA320U/ysynth3/blob/master/SS/oled4.jpg "OLED4")
 
-![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/disk1.png "SS")
+![SS](https://github.com/YoutechA320U/ysynth3/blob/master/SS/disk1.png "SS")
 
-![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/disk2.png "SS")
+![SS](https://github.com/YoutechA320U/ysynth3/blob/master/SS/disk2.png "SS")
 
-この時にmidiフォルダに標準MIDIファイル（拡張子 .mid）を、sf2フォルダにサウンドフォント（拡張子 .sf2）を入れる事ができます。もう1度押しボタンスイッチを押すとディスプレイ下段に`Ysynth_Restart`と表示されシステムがリロードされ、フォルダの変更が反映されます。この時必ずパソコン側で取り出し、アンマウントを行ってから、押しボタンスイッチを押してください。
+この時にmidiフォルダに標準MIDIファイル（拡張子 .mid）を、sf2フォルダにサウンドフォント（拡張子 .sf2）を入れる事ができます。もう1度押しボタンスイッチを押すとディスプレイ下段に`ysynth3_Restart`と表示されシステムがリロードされ、フォルダの変更が反映されます。この時必ずパソコン側で取り出し、アンマウントを行ってから、押しボタンスイッチを押してください。
 
 ※異なる拡張子のファイルは認識されません。また、大文字の場合も認識しないので気をつけてください。仕様上ファイルの移動はそこそこ時間がかかります。
 
 ## 備考
 OTG機能で他のパソコンなどとUSB接続する場合はUSBメモリー状態以外では「MIDI function」または「MIDI Gadget」という名前で認識されます。
 
-システムのリロードはYsynthのスクリプトとTimidity++をリセット、再起動します。また、サウンドフォントを変更した場合はTimidity++のみが再起動します。
+システムのリロードはysynth3のスクリプトとTimidity++をリセット、再起動します。また、サウンドフォントを変更した場合はTimidity++のみが再起動します。
 
 動作がおかしくなった場合、どちらを行っても症状がが改善しない場合は1度シャットダウンをして電源を入れ直してください。
 
 RaspberryPi Zeroのメモリは512MBなので、サウンドフォントのサイズは1つあたり200MB程度までにしてください。あまり大きいサイズのサウンドフォントだとメモリ不足で音飛びやフリーズが発生する可能性があります。
 
-MIDIファイル、Timidity++の設定ファイルに使える文字は[so1602.py](https://github.com/YoutechA320U/Ysynth/blob/master/so1602.py)に依存します。対応していない文字をファイル名に使うとディスプレイに`Name_Error`と表示されるので修正してください。（選択はできます）
+MIDIファイル、Timidity++の設定ファイルに使える文字は[so1602.py](https://github.com/YoutechA320U/ysynth3/blob/master/so1602.py)に依存します。対応していない文字をファイル名に使うとディスプレイに`Name_Error`と表示されるので修正してください。（選択はできます）
 
-![SS](https://github.com/YoutechA320U/Ysynth/blob/master/SS/oled3.jpg "OLED3")
+![SS](https://github.com/YoutechA320U/ysynth3/blob/master/SS/oled3.jpg "OLED3")
 
 ### 参考コード・資料
  * <http://artteknika.hatenablog.com/entry/2017/04/28/185509>  
